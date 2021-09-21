@@ -1,25 +1,23 @@
 <template>
-  <router-link to="/test">Change route</router-link>
-  <div>Test index Page</div>
-  <hello-world />
-  <div>
-    Authentication Status: {{ authStore.isLoggedIn ? '' : 'Not' }} Logged In
+  <div class="flex flex-col justify-center items-center">
+    <file-uploader @upload="updateTemplate" />
+    <div class="mt-10">
+      <img ref="templateImgRef" :src="templateImg" alt="template" />
+    </div>
+    <annotation-panel />
   </div>
-  <div>
-    <button class="mr" @click="authStore.login">Login</button>
-    <button @click="authStore.logout">Logout</button>
-  </div>
-  <div v-if="authStore.loading">Realizando login...</div>
 </template>
 
 <script setup lang="ts">
-import { useAuthStore } from '~/stores/auth'
-
-const authStore = useAuthStore()
+import '@recogito/annotorious/dist/annotorious.min.css'
+import { useAnnotations } from '~/composables/annotations'
+const templateImg = ref()
+const templateImgRef = ref()
+const { initAnnotations } = useAnnotations()
+const updateTemplate = (files: FileList) => {
+  templateImg.value = URL.createObjectURL(files[0])
+  initAnnotations(templateImgRef.value)
+}
 </script>
 
-<style scoped>
-.mr {
-  margin-right: 1rem;
-}
-</style>
+<style scoped></style>
