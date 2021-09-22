@@ -21,14 +21,13 @@ app.use(router)
 const pinia = createPinia()
 
 // Set here which stores should be persisted
-const storesToPersist = ['auth']
+const storesToPersist: Array<string> = []
 
 // Handling recovery of persisted data
 if (localStorage.getItem('piniaState')) {
   const dataFromLocalStorage = JSON.parse(
     localStorage.getItem('piniaState') || '{}'
   )
-  console.log(dataFromLocalStorage)
   for (const store of storesToPersist) {
     if (dataFromLocalStorage[store]) {
       pinia.state.value = {
