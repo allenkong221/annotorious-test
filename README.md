@@ -1,51 +1,16 @@
-# vite-vue3-boilerplate
+# Tolstoy initial tests
 
-Boilerplate for Vue 3 using Vite and adding some plugins to bring some Nuxt-like features
-(e.g. auto-importing components and auto-routing setup)
+## How to setup the project
 
-## Installation
+1 - Open a command line in `/dist/`
+2 - Run `python -m http.server`
+3 - Navigate to `localhost:8000` on your browser (maybe it's another port if that one's being used)
 
-```
-npm i -g pnpm (in case you don't have pnpm installed - yarn/npm also work, but pnpm is recommended)
-pnpm i
-```
-
----
-
-## Running a development server
+On the left side of the screen I added a `Send to API` button, which should make a POST request to `http://localhost:8000/test` with the following body:
 
 ```
-pnpm dev
+{
+  file: fileHere, // Not too sure which format is being sent here - I'm not familiar with sending files to API, so I just tried to follow a guide, but this might need adjustments, but it seems to be a 'Form Data' type
+  annotations: [{name: 'box1', top: 10, left: 10, width: 10, height: 10}] // This is a stringified array of 'annotation' objects (which contain the info of each annotation)
+}
 ```
-
----
-
-## Features
-
-- ESLint ✔️
-- TypeScript ✔️
-- Auto-import components from `/src/components` with TS support✔️
-- Auto setup router for pages in `/src/pages` ✔️
-- Dynamic routes using `/src/pages/[slug].vue` ✔️
-- Nuxt-like layout setup ✔️
-- Store setup using [Pinia](https://pinia.esm.dev/)✔️
-- Auto-import plugins from `/src/plugins` ✔️
-
----
-
-## How-to's
-
-### Store data persistance
-
-This boilerplate is currently setup to persist the data of the stores in the `storesToPersist`
-variable in `main.ts`, so if you need to persist data from a store, just add it to the array
-
----
-
-## Why's
-
-### Pinia over Vuex
-
-- Better TypeScript support
-- No need for mutations
-- Seems to be a better match with Composition API
