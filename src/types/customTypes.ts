@@ -14,7 +14,7 @@ export type Annotation = {
 }
 
 export type FormattedAnnotation = {
-  name: string
+  name?: string
   id: string
   top: number
   left: number

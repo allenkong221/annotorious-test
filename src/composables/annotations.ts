@@ -2,6 +2,7 @@
 import { Annotorious } from '@recogito/annotorious'
 import { Ref, ref } from 'vue'
 import { Annotation, FormattedAnnotation } from '~/types/customTypes'
+// import ShapeLabelsFormatter from '@recogito/annotorious-shape-labels'
 
 const translateAnnotationInfo = (value: string) => {
   const cleanValue = value.substr(11)
@@ -13,37 +14,59 @@ const translateAnnotationInfo = (value: string) => {
     height: parseInt(splitValues[3]),
   }
 }
-const anno = ref()
+
+export const anno = ref()
+export const selectedAnnotationId = ref('')
 export const annotations = ref<Array<FormattedAnnotation>>([])
 export const useAnnotations = () => {
   return {
     initAnnotations(imageRef: Ref) {
       anno.value = new Annotorious({
         image: imageRef,
-        widgets: ['COMMENT'],
+        disableEditor: true,
       })
-      anno.value.on('createAnnotation', (annotation: Annotation) => {
-        // annotations.value = this.getAnnotations()
-        annotations.value.push({
-          name: annotation.body[0].value,
-          id: annotation.id,
-          ...translateAnnotationInfo(annotation.target.selector.value),
-        })
+      anno.value.on('createSelection', async (selection: any) => {
+        await anno.value.updateSelected(selection, true)
+      })
+      anno.value.on('cancelSelected', () => {
+        // selectedAnnotationId.value = ''
       })
       anno.value.on(
         'updateAnnotation',
         (annotation: Annotation, prev: Annotation) => {
+          console.log('updating')
           annotations.value.forEach((ann, i) => {
             if (prev.id === ann.id) {
               annotations.value[i] = {
-                name: annotation.body[0].value,
-                id: annotation.id,
+                ...annotations.value[i],
                 ...translateAnnotationInfo(annotation.target.selector.value),
               }
             }
           })
         }
       )
+      anno.value.on('createAnnotation', (annotation: Annotation) => {
+        // annotations.value = this.getAnnotations()
+        annotations.value.push({
+          name: '',
+          id: annotation.id,
+          ...translateAnnotationInfo(annotation.target.selector.value),
+        })
+        anno.value.selectAnnotation(annotation.id)
+        selectedAnnotationId.value = annotation.id
+      })
+      anno.value.on('selectAnnotation', (annotation: Annotation) => {
+        console.log('selected', annotation.id)
+        selectedAnnotationId.value = annotation.id
+      })
+      anno.value.on('deleteAnnotation', (annotation: Annotation) => {
+        const deletedId = annotation.id
+        selectedAnnotationId.value = ''
+        const deletedIndex = annotations.value.findIndex(
+          (annotation) => annotation.id === deletedId
+        )
+        annotations.value.splice(deletedIndex, 1)
+      })
     },
     getAnnotations() {
       if (!anno.value) {
@@ -60,7 +83,23 @@ export const useAnnotations = () => {
       })
     },
     selectAnnotation(id: string) {
+      selectedAnnotationId.value = id
       anno.value.selectAnnotation(id)
+    },
+    clearSelection() {
+      selectedAnnotationId.value = ''
+      anno.value.cancelSelected()
+    },
+    deleteAnnotation(id: string) {
+      const deletedIndex = annotations.value.findIndex(
+        (annotation) => annotation.id === id
+      )
+      anno.value.removeAnnotation(id)
+      selectedAnnotationId.value = ''
+      annotations.value.splice(deletedIndex, 1)
+      setTimeout(() => {
+        anno.value.cancelSelected()
+      }, 50)
     },
   }
 }

@@ -7,6 +7,10 @@ declare module 'vue' {
     AnnotationPanel: typeof import('C:/Users/Administrator/Documents/Projects/Personal/annotorious-test/src/components/AnnotationPanel.vue')['default']
     FileUploader: typeof import('C:/Users/Administrator/Documents/Projects/Personal/annotorious-test/src/components/FileUploader.vue')['default']
     HelloWorld: typeof import('C:/Users/Administrator/Documents/Projects/Personal/annotorious-test/src/components/HelloWorld.vue')['default']
+    IMdiCheck: typeof import('~icons/mdi/check')['default']
+    IMdiTrash: typeof import('~icons/mdi/trash')['default']
+    SelectionPanel: typeof import('C:/Users/Administrator/Documents/Projects/Personal/annotorious-test/src/components/SelectionPanel.vue')['default']
+    TemplateOverlay: typeof import('C:/Users/Administrator/Documents/Projects/Personal/annotorious-test/src/components/TemplateOverlay.vue')['default']
   }
 }
 

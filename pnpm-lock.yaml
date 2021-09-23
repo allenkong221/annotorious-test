@@ -1,7 +1,9 @@
 lockfileVersion: 5.3
 
 specifiers:
+  '@iconify/json': ^1.1.404
   '@recogito/annotorious': ^2.5.5
+  '@recogito/annotorious-shape-labels': ^0.2.1
   '@types/uuid': ^8.3.1
   '@typescript-eslint/eslint-plugin': ^4.31.2
   '@vitejs/plugin-vue': ^1.8.1
@@ -16,6 +18,7 @@ specifiers:
   prettier: ^2.4.1
   typescript: ^4.4.3
   unplugin-auto-import: ^0.4.6
+  unplugin-icons: ^0.11.3
   unplugin-vue-components: ^0.15.2
   uuid: ^8.3.2
   vite: ^2.5.10
@@ -28,6 +31,7 @@ specifiers:
 
 dependencies:
   '@recogito/annotorious': 2.5.5
+  '@recogito/annotorious-shape-labels': 0.2.1
   '@vueuse/core': 6.4.1_vue@3.2.12
   pinia: 2.0.0-rc.9_typescript@4.4.3+vue@3.2.12
   uuid: 8.3.2
@@ -35,6 +39,7 @@ dependencies:
   vue-router: 4.0.11_vue@3.2.12
 
 devDependencies:
+  '@iconify/json': 1.1.404
   '@types/uuid': 8.3.1
   '@typescript-eslint/eslint-plugin': 4.31.2_eslint@7.32.0+typescript@4.4.3
   '@vitejs/plugin-vue': 1.8.1_ece4885f8f1ae7d2e7306f4ece6a44cf
@@ -47,6 +52,7 @@ devDependencies:
   prettier: 2.4.1
   typescript: 4.4.3
   unplugin-auto-import: 0.4.6_@vueuse+core@6.4.1+vite@2.5.10
+  unplugin-icons: 0.11.3_4242227f15d365faebe5884deb26575d
   unplugin-vue-components: 0.15.2_vite@2.5.10+vue@3.2.12
   vite: 2.5.10
   vite-plugin-pages: 0.18.1_ece4885f8f1ae7d2e7306f4ece6a44cf
@@ -211,6 +217,14 @@ packages:
     resolution: {integrity: sha512-wdppn25U8z/2yiaT6YGquE6X8sSv7hNMWSXYSSU1jGv/yd6XqjXgTDJ8KP4NgjTXfJ3GbRjeeb8RTV7a/VpM+w==}
     dev: true
 
+  /@iconify/json-tools/1.0.10:
+    resolution: {integrity: sha512-LFelJDOLZ6JHlmlAkgrvmcu4hpNPB91KYcr4f60D/exzU1eNOb4/KCVHIydGHIQFaOacIOD+Xy+B7P1z812cZg==}
+    dev: true
+
+  /@iconify/json/1.1.404:
+    resolution: {integrity: sha512-/77BdzRhxQYKnL8Ri2XO5metGcmUTKtoorSscWapQpYhSRTWc6M8UaBVQt+Dn+SMNhiF3vBy7DuKGb7mq7eraw==}
+    dev: true
+
   /@nodelib/fs.scandir/2.1.5:
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}
     engines: {node: '>= 8'}
@@ -231,6 +245,10 @@ packages:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.13.0
     dev: true
+
+  /@recogito/annotorious-shape-labels/0.2.1:
+    resolution: {integrity: sha512-V0fnHnLyHtQ3SnKx5cd1CzeIiuGYHK6FafcvSsmlHEZ5CTZRwxixh6RSMLw4rxzn4665DlMTvBGnaCUGsNJ+vA==}
+    dev: false
 
   /@recogito/annotorious/2.5.5:
     resolution: {integrity: sha512-QC3gmuKCmRwre59z4mTl1jeNZ+ojvcbIzf1AWT62WOIhiFcsNXMz6k/OeBUggttilmUs5Rr6Tw75LCMgWWtnEw==}
@@ -2491,6 +2509,36 @@ packages:
       has-pkg: 0.0.1
       magic-string: 0.25.7
       resolve: 1.20.0
+      unplugin: 0.2.11_vite@2.5.10
+    transitivePeerDependencies:
+      - rollup
+      - vite
+      - webpack
+    dev: true
+
+  /unplugin-icons/0.11.3_4242227f15d365faebe5884deb26575d:
+    resolution: {integrity: sha512-qJMi1YBv6QN2R6lu+l7dR+W3LXmen09/h2OzD9324YOvRM6ElsmaCWvc5uuvAVUSpSuuAKfb+Ay1lCIfpb34RA==}
+    peerDependencies:
+      '@iconify/json': '*'
+      '@svgr/core': ^5.5.0
+      '@vue/compiler-sfc': ^3.0.2
+      vue-template-compiler: ^2.6.12
+      vue-template-es2015-compiler: ^1.9.0
+    peerDependenciesMeta:
+      '@svgr/core':
+        optional: true
+      '@vue/compiler-sfc':
+        optional: true
+      vue-template-compiler:
+        optional: true
+      vue-template-es2015-compiler:
+        optional: true
+    dependencies:
+      '@antfu/utils': 0.3.0
+      '@iconify/json': 1.1.404
+      '@iconify/json-tools': 1.0.10
+      '@vue/compiler-sfc': 3.2.12
+      has-pkg: 0.0.1
       unplugin: 0.2.11_vite@2.5.10
     transitivePeerDependencies:
       - rollup
