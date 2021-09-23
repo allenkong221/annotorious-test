@@ -3,7 +3,9 @@
 ## How to setup the project
 
 1 - Open a command line in `/dist/`
+
 2 - Run `python -m http.server`
+
 3 - Navigate to `localhost:8000` on your browser (maybe it's another port if that one's being used)
 
 On the left side of the screen I added a `Send to API` button, which should make a POST request to `http://localhost:8000/test` with the following body:
