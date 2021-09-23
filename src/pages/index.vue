@@ -8,7 +8,10 @@
       <h5 class="text-lg text-orange-400 text-center">
         Click and drag over the image to create a new selection
       </h5>
-      <img ref="templateImgRef" :src="templateImg" alt="template" />
+      <div class="relative">
+        <img ref="templateImgRef" :src="templateImg" alt="template" />
+        <selection-panel />
+      </div>
     </div>
     <annotation-panel />
   </div>
