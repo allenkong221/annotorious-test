@@ -13,23 +13,36 @@
         <selection-panel />
       </div>
     </div>
-    <button
-      @click="sendInfoToAPI"
-      class="
-        text-lg text-red-700
-        border-1 border-red-700
-        px-6
-        py-2
-        mt-2
-        absolute
-        top-10
-        left-10
-        active:bg-red-100
-        focus:border-red-700 focus:border-1 focus:outline-none
-      "
-    >
-      Send to API
-    </button>
+    <div class="absolute top-10 left-10 flex flex-col">
+      <button
+        @click="testAPI"
+        class="
+          text-lg text-red-700
+          border-1 border-red-700
+          px-6
+          py-2
+          mt-2
+          active:bg-red-100
+          focus:border-red-700 focus:border-1 focus:outline-none
+        "
+      >
+        {{ loadingTest ? 'Attempting connection...' : 'Test API' }}
+      </button>
+      <button
+        @click="sendInfoToAPI"
+        class="
+          text-lg text-red-700
+          border-1 border-red-700
+          px-6
+          py-2
+          mt-2
+          active:bg-red-100
+          focus:border-red-700 focus:border-1 focus:outline-none
+        "
+      >
+        Send to API
+      </button>
+    </div>
     <annotation-panel />
   </div>
 </template>
@@ -42,11 +55,23 @@ import axios from 'axios'
 const templateImg = ref()
 const templateImgRef = ref()
 const templateFile = ref()
+const loadingTest = ref(false)
 const { initAnnotations } = useAnnotations()
 const updateTemplate = (files: FileList) => {
   templateFile.value = files[0]
   templateImg.value = URL.createObjectURL(files[0])
   initAnnotations(templateImgRef.value)
+}
+const testAPI = async () => {
+  loadingTest.value = true
+  try {
+    const res = await axios.get('http://localhost:5000/apitest')
+    alert('API TEST OK')
+  } catch {
+    alert('ERROR COMMUNICATING WITH API')
+  } finally {
+    loadingTest.value = false
+  }
 }
 const sendInfoToAPI = async () => {
   const formData = new FormData()
