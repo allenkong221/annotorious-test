@@ -65,7 +65,7 @@ const updateTemplate = (files: FileList) => {
 const testAPI = async () => {
   loadingTest.value = true
   try {
-    const res = await axios.get('http://localhost:5000/apitest')
+    const res = await axios.post('/apitest')
     alert('API TEST OK')
   } catch {
     alert('ERROR COMMUNICATING WITH API')
@@ -78,7 +78,7 @@ const sendInfoToAPI = async () => {
   formData.append('file', templateFile.value)
   formData.append('annotations', JSON.stringify(annotations.value))
   try {
-    await axios.post('http://localhost:5000/test', formData, {
+    await axios.post('/test', formData, {
       headers: {
         'Content-Type': 'multipart/form-data;',
       },

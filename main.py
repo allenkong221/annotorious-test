@@ -17,8 +17,8 @@ import aiofiles
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
-app.mount("/", StaticFiles(directory="."), name=".")
-templates = Jinja2Templates(directory=".")
+app.mount("/dist", StaticFiles(directory="dist"), name="dist")
+templates = Jinja2Templates(directory="dist")
 
 
 origins = [
@@ -43,6 +43,27 @@ class Annotations(BaseModel):
 class Data(BaseModel):
     user: str
 
+@app.get("/", response_class=FileResponse)
+def read_index(request: Request):
+    path = 'dist/index.html' 
+    return FileResponse(path)
+
+@app.get("/{catchall:path}", response_class=FileResponse)
+def read_index(request: Request):
+    # check first if requested file exists
+    path = request.path_params["catchall"]
+    file = 'dist/'+path
+
+    if os.path.exists(file):
+        return FileResponse(file)
+
+    # otherwise return index files
+    index = 'dist/index.html' 
+    return FileResponse(index)
+
+@app.post('/apitest')
+def testapi():
+  return {"message": "Test success"}
 
 @app.post("/test")
 def main(data: Data):
