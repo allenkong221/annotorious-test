@@ -16,3 +16,11 @@ On the left side of the screen I added a `Send to API` button, which should make
   annotations: [{name: 'box1', top: 10, left: 10, width: 10, height: 10}] // This is a stringified array of 'annotation' objects (which contain the info of each annotation)
 }
 ```
+
+## How to run FastAPI server
+
+1 - git bash in `/annotorious-test/`
+
+2 - run `uvicorn main:app --reload --port 5000`
+
+3 - Navigating to `localhost:8000` should have FastAPI set up
