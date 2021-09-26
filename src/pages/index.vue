@@ -53,7 +53,7 @@ const sendInfoToAPI = async () => {
   formData.append('file', templateFile.value)
   formData.append('annotations', JSON.stringify(annotations.value))
   try {
-    await axios.post('/test', formData, {
+    await axios.post('http://localhost:5000/test', formData, {
       headers: {
         'Content-Type': 'multipart/form-data;',
       },
