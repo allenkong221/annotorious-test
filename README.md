@@ -21,6 +21,6 @@ On the left side of the screen I added a `Send to API` button, which should make
 
 1 - git bash in `/annotorious-test/`
 
-2 - run `uvicorn main:app --reload --port 5000`
+2 - run `uvicorn main:app --reload --port 8000`
 
-3 - Navigating to `localhost:8000` should have FastAPI set up
+3 - Navigating to `localhost:8000/docs` should show the API documentation 
