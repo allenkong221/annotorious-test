@@ -35,9 +35,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-class Annotations(BaseModel):
-    annotations: List[str]
-
 
 @app.get("/", response_class=FileResponse)
 def read_index(request: Request):
@@ -62,7 +59,7 @@ def testapi():
     return {"message": "Test success"}
 
 @app.post("/test")
-async def data(file: UploadFile = File(...), annotations: str = Form(...)):
+async def data(file: UploadFile = File(...), annotations: str = Body(...)):
     results = {}
 
     print(file)

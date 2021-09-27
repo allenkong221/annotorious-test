@@ -8,10 +8,10 @@ def create_template(annotations):
 def crop_image(crop_annot, image_path):
     img = cv2.imread(image_path)
 
-    y = crop_annot['top']
-    x = crop_annot['left']
-    h = crop_annot['height']
-    w = crop_annot['width']
+    x = crop_annot[2]
+    y = crop_annot[3]
+    w = crop_annot[4]
+    h = crop_annot[5]
 
     crop_img = img[y:y+h, x:x+w]
 
