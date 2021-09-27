@@ -20,7 +20,6 @@ app = FastAPI()
 app.mount("/dist", StaticFiles(directory="dist"), name="dist")
 templates = Jinja2Templates(directory="dist")
 
-
 origins = [
     "http://localhost.tiangolo.com",
     "https://localhost.tiangolo.com",
@@ -37,11 +36,8 @@ app.add_middleware(
 )
 
 class Annotations(BaseModel):
-    annotations: List[float]
+    annotations: List[str]
 
-
-class Data(BaseModel):
-    user: str
 
 @app.get("/", response_class=FileResponse)
 def read_index(request: Request):
@@ -63,56 +59,20 @@ def read_index(request: Request):
 
 @app.post('/apitest')
 def testapi():
-  return {"message": "Test success"}
+    return {"message": "Test success"}
 
 @app.post("/test")
 async def data(file: UploadFile = File(...), annotations: str = Form(...)):
-  print(file)
-  print(annotations)
-  contents = await file.read()
-  with open('data/test.jpg', 'wb') as f:
-    f.write(contents)
-  return {"message": "Test success"}
+    results = {}
 
-# @app.post('/test')
-# async def create_file()
-# @app.get("/")
-# def main():
-#     return RedirectResponse(url="/index.html")
+    print(file)
+    print(annotations)
+    contents = await file.read()
+    with open('data/test.jpg', 'wb') as f:
+        f.write(contents)
 
-# @app.get("/apitest")
+    for item in annotations:
+        img = crop_image(item, 'data/test.jpg')
+        results[item['name']] = extract_text(img)
 
-
-# @app.post("/test")
-# async def create_files(request: Request, my_hidden_input: str = Form(...)):
-#     results=[]
-#     # for file in files:
-#     #     file_path = os.path.join(
-#     #         "insert storage path here/", f'{file.filename}'
-#     #     )
-
-#     #     async with aiofiles.open(file_path, 'wb') as f:
-#     #         content = await file.read()
-#     #         await f.write(content)
-#     print('success')
-#     return {"text": results}
-
-
-
-
-# results = await pytesseract.image_to_string(img_path, lang='eng')
-
-
-# @app.post("/test", response_model=AnyFormData)
-# async def create_files(files: AnyFormData = File(...)):
-#     result=""
-#     for file in files:
-#         file_path = os.path.join(
-#             "insert storage path here/", f'{file.filename}'
-#         )
-
-#         async with aiofiles.open(file_path, 'wb') as f:
-#             content = await file.read()
-#             await f.write(content)
-
-#     return {"message": "created files"}
+    return {"message": results}
