@@ -48,7 +48,7 @@ def read_index(request: Request):
     path = 'dist/index.html' 
     return FileResponse(path)
 
-@app.get("/{catchall:path}", response_class=FileResponse)
+@app.get("/{catchall:path}", response_class=FileResponse) 
 def read_index(request: Request):
     # check first if requested file exists
     path = request.path_params["catchall"]
@@ -66,10 +66,13 @@ def testapi():
   return {"message": "Test success"}
 
 @app.post("/test")
-def main(data: Data):
-    return data
+async def data(file: UploadFile = File(...), annotations: str = Form(...)):
+  print(file)
+  print(annotations)
+  return {"message": "Test success"}
 
-
+# @app.post('/test')
+# async def create_file()
 # @app.get("/")
 # def main():
 #     return RedirectResponse(url="/index.html")
