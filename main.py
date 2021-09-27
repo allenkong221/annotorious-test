@@ -69,6 +69,9 @@ def testapi():
 async def data(file: UploadFile = File(...), annotations: str = Form(...)):
   print(file)
   print(annotations)
+  contents = await file.read()
+  with open('data/test.jpg', 'wb') as f:
+    f.write(contents)
   return {"message": "Test success"}
 
 # @app.post('/test')
