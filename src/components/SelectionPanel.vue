@@ -3,8 +3,8 @@
     v-for="annotation in annotations"
     class="flex absolute bg-blue-400"
     :style="{
-      top: `calc(${annotation.top}px - 1.5rem)`,
-      left: `${annotation.left + annotation.width}px`,
+      top: `calc(${annotation.top * scale}px - 1.5rem)`,
+      left: `${annotation.left * scale + annotation.width * scale}px`,
     }"
   >
     <div v-show="selectedAnnotationId === annotation.id" class="flex">
@@ -30,7 +30,14 @@ import {
 } from '~/composables/annotations'
 const { selectAnnotation, clearSelection } = useAnnotations()
 
-const updateAnnotationName = async (event: InputEvent) => {
+defineProps({
+  scale: {
+    type: Number,
+    default: 0,
+  },
+})
+
+const updateAnnotationName = async (event: Event) => {
   const target = event.target as HTMLInputElement
   console.log(target.dataset.id)
   const targetAnnotation = annotations.value.find(
