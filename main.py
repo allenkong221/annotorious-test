@@ -1,9 +1,10 @@
-from typing import List
+from typing import List, Optional
 from fastapi import  FastAPI, Form, Body, Request, File, UploadFile
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 from fastapi.responses import HTMLResponse, FileResponse
 from fastapi.templating import Jinja2Templates
+from pydantic.types import Json
 
 # Use this to serve a public/index.html
 from starlette.responses import FileResponse 
@@ -35,6 +36,13 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+class Annotation(BaseModel):
+    name: Optional[str] = None
+    id: str
+    left: int
+    top: int
+    width: int
+    height: int
 
 @app.get("/", response_class=FileResponse)
 def read_index(request: Request):
@@ -59,7 +67,7 @@ def testapi():
     return {"message": "Test success"}
 
 @app.post("/test")
-async def data(file: UploadFile = File(...), annotations: str = Body(...)):
+async def data(file: UploadFile = File(...), annotations: List[Annotation] = Form(...)):
     results = {}
 
     print(file)
