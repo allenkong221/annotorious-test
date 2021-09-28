@@ -8,9 +8,9 @@
       <h5 class="text-lg text-orange-400 text-center">
         Click and drag over the image to create a new selection
       </h5>
-      <div class="relative">
+      <div class="relative w-40">
         <img ref="templateImgRef" :src="templateImg" alt="template" />
-        <selection-panel />
+        <selection-panel :scale="templateScale" />
       </div>
     </div>
     <div class="absolute top-10 left-10 flex flex-col">
@@ -56,10 +56,17 @@ const templateImg = ref()
 const templateImgRef = ref()
 const templateFile = ref()
 const loadingTest = ref(false)
+const templateScale = ref(0)
 const { initAnnotations } = useAnnotations()
-const updateTemplate = (files: FileList) => {
+const updateTemplate = async (files: FileList) => {
   templateFile.value = files[0]
   templateImg.value = URL.createObjectURL(files[0])
+  const tempImg = new Image()
+  tempImg.src = templateImg.value
+  tempImg.onload = () => {
+    templateScale.value = templateImgRef.value.width / tempImg.width
+  }
+
   initAnnotations(templateImgRef.value)
 }
 const testAPI = async () => {
