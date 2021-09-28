@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import Dict, List, Optional
 from fastapi import  FastAPI, Form, Body, Request, File, UploadFile
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
@@ -7,7 +7,7 @@ from fastapi.templating import Jinja2Templates
 from pydantic.types import Json
 
 # Use this to serve a public/index.html
-from starlette.responses import FileResponse 
+from starlette.responses import FileResponse, StreamingResponse 
 from starlette.responses import RedirectResponse
 from preprocessing import *
 
@@ -36,14 +36,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-class Annotation(BaseModel):
-    name: Optional[str] = None
-    id: str
-    left: int
-    top: int
-    width: int
-    height: int
-
 @app.get("/", response_class=FileResponse)
 def read_index(request: Request):
     path = 'dist/index.html' 
@@ -67,17 +59,22 @@ def testapi():
     return {"message": "Test success"}
 
 @app.post("/test")
-async def data(file: UploadFile = File(...), annotations: List[Annotation] = Form(...)):
+async def data(file: UploadFile = File(...), annotations: str = Body(...)):
     results = {}
+    str_annotations = json.loads(str(annotations))
 
     print(file)
     print(annotations)
+    print(type(str_annotations))
+
     contents = await file.read()
     with open('data/test.jpg', 'wb') as f:
         f.write(contents)
 
-    for item in annotations:
+    for item in str_annotations:
         img = crop_image(item, 'data/test.jpg')
         results[item['name']] = extract_text(img)
+
+    print(results)
 
     return {"message": results}

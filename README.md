@@ -24,3 +24,9 @@ On the left side of the screen I added a `Send to API` button, which should make
 2 - run `uvicorn main:app --reload --port 8000`
 
 3 - Navigating to `localhost:8000/docs` should show the API documentation 
+
+## Optional: Installing Tesseract OCR
+
+1 - download from `https://github.com/UB-Mannheim/tesseract/wiki` and update `pytesseract.pytesseract.tesseract_cmd = 'C:/Program Files/Tesseract-OCR/tesseract.exe'` path in `preprocessing.py` if needed
+
+2 - run `pip install pytesseract` and `pip install tesseract`
