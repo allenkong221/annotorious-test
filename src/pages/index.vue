@@ -3,7 +3,7 @@
     <h5 class="text-xl text-orange-400">
       Select a file to be used as a template:
     </h5>
-    <file-uploader @upload="updateTemplate" />
+    <file-uploader @upload="updateTemplate" multiple />
     <div class="mt-10" v-show="templateImg">
       <h5 class="text-lg text-orange-400 text-center">
         Click and drag over the image to create a new selection
@@ -42,6 +42,20 @@
       >
         Send to API
       </button>
+      <button
+        @click="sendMultipleFiles"
+        class="
+          text-lg text-red-700
+          border-1 border-red-700
+          px-6
+          py-2
+          mt-2
+          active:bg-red-100
+          focus:border-red-700 focus:border-1 focus:outline-none
+        "
+      >
+        Send Multiple Files to API
+      </button>
     </div>
     <annotation-panel />
   </div>
@@ -57,8 +71,10 @@ const templateImgRef = ref()
 const templateFile = ref()
 const loadingTest = ref(false)
 const templateScale = ref(0)
+const test = ref()
 const { initAnnotations } = useAnnotations()
 const updateTemplate = async (files: FileList) => {
+  test.value = files
   templateFile.value = files[0]
   templateImg.value = URL.createObjectURL(files[0])
   const tempImg = new Image()
@@ -84,8 +100,25 @@ const sendInfoToAPI = async () => {
   const formData = new FormData()
   formData.append('file', templateFile.value)
   formData.append('annotations', JSON.stringify(annotations.value))
+  console.log(formData)
   try {
     await axios.post('/test', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data;',
+      },
+    })
+  } catch {
+  } finally {
+    alert('sent to the API')
+  }
+}
+const sendMultipleFiles = async () => {
+  const formData = new FormData()
+  for (const file of test.value) {
+    formData.append(`files`, file)
+  }
+  try {
+    await axios.post('/multitest', formData, {
       headers: {
         'Content-Type': 'multipart/form-data;',
       },
