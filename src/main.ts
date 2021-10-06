@@ -21,7 +21,7 @@ app.use(router)
 const pinia = createPinia()
 
 // Set here which stores should be persisted
-const storesToPersist: Array<string> = []
+const storesToPersist: string[] = []
 
 // Handling recovery of persisted data
 if (localStorage.getItem('piniaState')) {

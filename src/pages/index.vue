@@ -1,132 +1,66 @@
 <template>
-  <div class="flex flex-col justify-center items-center">
-    <h5 class="text-xl text-orange-400">
-      Select a file to be used as a template:
-    </h5>
-    <file-uploader @upload="updateTemplate" multiple />
-    <div class="mt-10" v-show="templateImg">
-      <h5 class="text-lg text-orange-400 text-center">
-        Click and drag over the image to create a new selection
-      </h5>
-      <div class="relative w-40">
-        <img ref="templateImgRef" :src="templateImg" alt="template" />
-        <selection-panel :scale="templateScale" />
+  <div class="flex flex-col items-center justify-center h-full">
+    <div
+      class="
+        border-1 border-purple-500
+        flex
+        justify-center
+        items-center
+        w-30
+        h-30
+        rounded-full
+        mb-4
+      "
+    >
+      <i-mdi-user class="text-purple-500 text-5xl" />
+    </div>
+    <div class="flex flex-col text-gray-500 mb-4">
+      <label for="email">Email</label>
+      <input
+        name="email"
+        class="border-1 p-2 border-gray-500 w-75"
+        v-model="signInEmail"
+      />
+    </div>
+    <div class="flex flex-col text-gray-500 mb-4">
+      <label for="password">Password</label>
+      <input
+        name="password"
+        v-model="signInPassword"
+        class="border-1 p-2 border-gray-500 w-75"
+      />
+    </div>
+    <my-button @click="handleEmailLogin">Login</my-button>
+    <span>or</span>
+    <my-button @click="handleGoogleLogin">
+      <div class="flex items-center">
+        <i-mdi-google class="mr-2" />Sign In With Google
       </div>
-    </div>
-    <div class="absolute top-10 left-10 flex flex-col">
-      <button
-        @click="testAPI"
-        class="
-          text-lg text-red-700
-          border-1 border-red-700
-          px-6
-          py-2
-          mt-2
-          active:bg-red-100
-          focus:border-red-700 focus:border-1 focus:outline-none
-        "
-      >
-        {{ loadingTest ? 'Attempting connection...' : 'Test API' }}
-      </button>
-      <button
-        @click="sendInfoToAPI"
-        class="
-          text-lg text-red-700
-          border-1 border-red-700
-          px-6
-          py-2
-          mt-2
-          active:bg-red-100
-          focus:border-red-700 focus:border-1 focus:outline-none
-        "
-      >
-        Send to API
-      </button>
-      <button
-        @click="sendMultipleFiles"
-        class="
-          text-lg text-red-700
-          border-1 border-red-700
-          px-6
-          py-2
-          mt-2
-          active:bg-red-100
-          focus:border-red-700 focus:border-1 focus:outline-none
-        "
-      >
-        Send Multiple Files to API
-      </button>
-    </div>
-    <annotation-panel />
+    </my-button>
   </div>
 </template>
 
 <script setup lang="ts">
-import '@recogito/annotorious/dist/annotorious.min.css'
-import { annotations, useAnnotations } from '~/composables/annotations'
-import axios from 'axios'
+import { googleLogin } from '~/composables/firebase/auth'
 
-const templateImg = ref()
-const templateImgRef = ref()
-const templateFile = ref()
-const loadingTest = ref(false)
-const templateScale = ref(0)
-const test = ref()
-const { initAnnotations } = useAnnotations()
-const updateTemplate = async (files: FileList) => {
-  test.value = files
-  templateFile.value = files[0]
-  templateImg.value = URL.createObjectURL(files[0])
-  const tempImg = new Image()
-  tempImg.src = templateImg.value
-  tempImg.onload = () => {
-    templateScale.value = templateImgRef.value.width / tempImg.width
-  }
+const signInEmail = ref()
+const signInPassword = ref()
 
-  initAnnotations(templateImgRef.value)
+const handleEmailLogin = async () => {
+  // const login = await emailLogin(signInEmail.value, signInPassword.value)
+  // console.log(login)
+  router.push({
+    path: '/templates',
+  })
 }
-const testAPI = async () => {
-  loadingTest.value = true
-  try {
-    const res = await axios.post('/apitest')
-    alert('API TEST OK')
-  } catch {
-    alert('ERROR COMMUNICATING WITH API')
-  } finally {
-    loadingTest.value = false
-  }
-}
-const sendInfoToAPI = async () => {
-  const formData = new FormData()
-  formData.append('file', templateFile.value)
-  formData.append('annotations', JSON.stringify(annotations.value))
-  console.log(formData)
-  try {
-    await axios.post('/test', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data;',
-      },
-    })
-  } catch {
-  } finally {
-    alert('sent to the API')
-  }
-}
-const sendMultipleFiles = async () => {
-  const formData = new FormData()
-  for (const file of test.value) {
-    formData.append(`files`, file)
-  }
-  try {
-    await axios.post('/multitest', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data;',
-      },
-    })
-  } catch {
-  } finally {
-    alert('sent to the API')
-  }
+
+const router = useRouter()
+const handleGoogleLogin = async () => {
+  await googleLogin()
+  console.log('pushing')
+  router.push({
+    path: '/templates',
+  })
 }
 </script>
 

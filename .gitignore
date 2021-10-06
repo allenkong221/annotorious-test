@@ -2,6 +2,7 @@ node_modules
 .DS_Store
 dist-ssr
 *.local
+.env
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
