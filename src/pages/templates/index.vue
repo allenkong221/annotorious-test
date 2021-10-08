@@ -11,7 +11,11 @@
         </my-button>
       </div>
       <div class="flex items-center">
-        <el-input class="mr-4" placeholder="Search or filter" />
+        <my-input
+          placeholder="Search or filter"
+          v-model="search"
+          class="mr-2"
+        />
         <my-button type="secondary" class="w-50">Upload File</my-button>
       </div>
     </div>
@@ -24,6 +28,7 @@
 
 <script setup lang="ts">
 const router = useRouter()
+const search = ref('')
 </script>
 
 <style scoped></style>

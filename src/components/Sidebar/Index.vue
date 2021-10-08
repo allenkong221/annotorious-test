@@ -1,7 +1,6 @@
 <template>
-  <el-aside
-    width="120px"
-    class="border-r border-gray-500 flex flex-col items-center"
+  <div
+    class="border-r border-gray-500 flex flex-col items-center px-4"
   >
     <div
       class="
@@ -42,7 +41,7 @@
       </div>
       <span> {{ item.name }} </span>
     </div>
-  </el-aside>
+  </div>
 </template>
 
 <script setup lang="ts">

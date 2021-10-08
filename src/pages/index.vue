@@ -25,6 +25,7 @@
     <div class="flex flex-col text-gray-500 mb-4">
       <label for="password">Password</label>
       <input
+        type="password"
         name="password"
         v-model="signInPassword"
         class="border-1 p-2 border-gray-500 w-75"

@@ -10,11 +10,6 @@ export const useTemplates = () => {
     setNewTemplate: (files: FileList) => {
       newTemplateFile.value = files[0]
       newTemplateImage.value = URL.createObjectURL(files[0])
-      // const temp = new Image()
-      // temp.src = newTemplateImage.value
-      // temp.onload = () => {
-      //   newTemplateScale.value =
-      // }
     },
   }
 }

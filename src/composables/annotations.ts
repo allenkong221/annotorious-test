@@ -82,5 +82,8 @@ export const useAnnotations = () => {
       annotations.value.splice(deletedIndex, 1)
       anno.value.cancelSelected()
     },
+    getCurrentAnnotations: () => {
+      return annotations.value
+    },
   }
 }

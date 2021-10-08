@@ -25,9 +25,15 @@
         "
         v-model="currentLabel"
       />
-      <my-button class="ml-auto" @click="saveAnnotation">
-        {{ annotation.new ? 'Add label' : 'Save' }}
-      </my-button>
+      <div class="flex justify-between items-center">
+        <i-mdi-trash
+          @click="deleteAnnotation"
+          class="text-red-600 cursor-pointer"
+        />
+        <my-button @click="saveAnnotation">
+          {{ annotation.new ? 'Add label' : 'Save' }}
+        </my-button>
+      </div>
     </div>
   </div>
 </template>
@@ -43,6 +49,10 @@ defineProps({
     default: 0,
   },
 })
+
+const deleteAnnotation = () => {
+  removeAnnotation(selectedAnnotationId.value)
+}
 
 const saveAnnotation = async () => {
   const targetAnnotation = annotations.value.find(

@@ -5,11 +5,25 @@
 declare module 'vue' {
   export interface GlobalComponents {
     AnnotationPanel: typeof import('C:/Users/Administrator/Documents/Projects/Personal/annotorious-test/src/components/AnnotationPanel.vue')['default']
+    BackButton: typeof import('C:/Users/Administrator/Documents/Projects/Personal/annotorious-test/src/components/BackButton.vue')['default']
+    ElAside: typeof import('element-plus/es')['ElAside']
+    ElInput: typeof import('element-plus/es')['ElInput']
     FileUploader: typeof import('C:/Users/Administrator/Documents/Projects/Personal/annotorious-test/src/components/FileUploader.vue')['default']
     HelloWorld: typeof import('C:/Users/Administrator/Documents/Projects/Personal/annotorious-test/src/components/HelloWorld.vue')['default']
+    ICarbonCaretLeft: typeof import('~icons/carbon/caret-left')['default']
+    ICarbonCaretRight: typeof import('~icons/carbon/caret-right')['default']
     IMdiCheck: typeof import('~icons/mdi/check')['default']
+    IMdiGoogle: typeof import('~icons/mdi/google')['default']
+    IMdiPlus: typeof import('~icons/mdi/plus')['default']
     IMdiTrash: typeof import('~icons/mdi/trash')['default']
+    IMdiUser: typeof import('~icons/mdi/user')['default']
+    LabelList: typeof import('C:/Users/Administrator/Documents/Projects/Personal/annotorious-test/src/components/LabelList.vue')['default']
+    MyButton: typeof import('C:/Users/Administrator/Documents/Projects/Personal/annotorious-test/src/components/MyButton.vue')['default']
+    MyInput: typeof import('C:/Users/Administrator/Documents/Projects/Personal/annotorious-test/src/components/MyInput.vue')['default']
+    MyStepper: typeof import('C:/Users/Administrator/Documents/Projects/Personal/annotorious-test/src/components/MyStepper.vue')['default']
     SelectionPanel: typeof import('C:/Users/Administrator/Documents/Projects/Personal/annotorious-test/src/components/SelectionPanel.vue')['default']
+    Sidebar: typeof import('C:/Users/Administrator/Documents/Projects/Personal/annotorious-test/src/components/Sidebar/Index.vue')['default']
+    TemplateMarkers: typeof import('C:/Users/Administrator/Documents/Projects/Personal/annotorious-test/src/components/TemplateMarkers.vue')['default']
     TemplateOverlay: typeof import('C:/Users/Administrator/Documents/Projects/Personal/annotorious-test/src/components/TemplateOverlay.vue')['default']
   }
 }

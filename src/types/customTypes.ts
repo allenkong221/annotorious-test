@@ -28,6 +28,15 @@ export interface FormattedAnnotation {
   new: boolean
 }
 
+export interface ProcessedAnnotation {
+  name: string
+  id: string
+  top: number
+  left: number
+  width: number
+  height: number
+}
+
 export interface AnnotationSelection {
   body: Array<any>
   target: {
@@ -39,4 +48,19 @@ export interface AnnotationSelection {
     }
   }
   type: string
+}
+
+export interface Template {
+  image: any
+  annotations: FormattedAnnotation[]
+}
+
+export interface TemplateGroup {
+  templates: Template[]
+}
+
+export interface ProcessedTemplate {
+  image: any
+  user: string
+  annotations: ProcessedAnnotation[]
 }

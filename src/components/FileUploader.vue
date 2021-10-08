@@ -4,7 +4,7 @@
     type="secondary"
     class="text-lg"
     @click="inputRef.click()"
-    >Add sample document</my-button
+    >{{ buttonText }}</my-button
   >
   <input
     ref="inputRef"

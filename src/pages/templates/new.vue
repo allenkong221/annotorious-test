@@ -69,6 +69,9 @@
             over the image.
           </p>
           <label-list />
+          <my-button type="primary" class="mt-10" @click="submitNewTemplate"
+            >Submit Template</my-button
+          >
         </div>
       </template>
     </div>
@@ -82,11 +85,14 @@ import { newTemplateStep, useTemplates } from '~/composables/templates'
 const { steps, newTemplateImage, setNewTemplate } = useTemplates()
 const templateImgRef = ref<HTMLImageElement>()
 
-const { initAnnotations } = useAnnotations()
+const { initAnnotations, getCurrentAnnotations } = useAnnotations()
 const templateScale = ref(0)
 const handleTemplateUpload = async (files: FileList) => {
   setNewTemplate(files)
   await nextTick()
+}
+const submitNewTemplate = () => {
+  console.log(getCurrentAnnotations())
 }
 watch(
   () => newTemplateStep.value,
