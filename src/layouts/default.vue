@@ -11,7 +11,11 @@
     ></div>
     <navigation-top class="top" />
     <div class="p-5 md:p-12 lg:p-15 w-full flex-grow content">
-      <router-view />
+      <router-view v-slot="{ Component, route }">
+        <transition name="fade" mode="out-in">
+          <component :is="Component" :key="route" />
+        </transition>
+      </router-view>
     </div>
     <sidebar v-if="route.path !== '/'" class="side" />
   </div>
@@ -22,6 +26,15 @@ const route = useRoute()
 </script>
 
 <style scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.2s ease-in-out;
+}
+
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
 .content {
   max-height: 80vh;
   overflow-y: auto;
