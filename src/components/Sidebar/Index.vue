@@ -1,6 +1,6 @@
 <template>
   <div
-    class="border-r border-gray-500 flex flex-col items-center px-4"
+    class="border-r-2 border-secondary flex flex-col items-center px-4 bg-gray1"
   >
     <div
       class="

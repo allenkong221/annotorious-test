@@ -7,6 +7,7 @@
 
 <style>
 #app {
-  font-family: sans-serif;
+  font-family: 'Poppins', sans-serif;
+  color: #212429;
 }
 </style>

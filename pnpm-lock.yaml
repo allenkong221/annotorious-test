@@ -25,6 +25,7 @@ specifiers:
   unplugin-vue-components: ^0.15.6
   uuid: ^8.3.2
   vite: ^2.6.2
+  vite-plugin-fonts: ^0.2.2
   vite-plugin-pages: ^0.18.1
   vite-plugin-vue-layouts: ^0.5.0
   vite-plugin-windicss: ^1.4.9
@@ -61,6 +62,7 @@ devDependencies:
   unplugin-icons: 0.11.4_d67cdcbce7668664d2c185dd9b8df3bb
   unplugin-vue-components: 0.15.6_vite@2.6.3+vue@3.2.19
   vite: 2.6.3
+  vite-plugin-fonts: 0.2.2_vite@2.6.3
   vite-plugin-pages: 0.18.1_3c31e47dfa9787202537c5f61ba4bd24
   vite-plugin-vue-layouts: 0.5.0_65eb5448b27fdb14a0bda05fb24d976c
   vite-plugin-windicss: 1.4.9_typescript@4.4.3+vite@2.6.3
@@ -3392,6 +3394,14 @@ packages:
 
   /v8-compile-cache/2.3.0:
     resolution: {integrity: sha512-l8lCEmLcLYZh4nbunNZvQCJc5pv7+RCwa8q/LdUx8u7lsWvPDKmpodJAJNwkAhJC//dFY48KuIEmjtd4RViDrA==}
+    dev: true
+
+  /vite-plugin-fonts/0.2.2_vite@2.6.3:
+    resolution: {integrity: sha512-fhzhsrTiuzlDjSO6g5sV5EVIIvbb8lmsaIY6eUTBM4lcF55x40UBpHrcyvNwIhQG211g0lu83XC7oZlkmvdkMA==}
+    peerDependencies:
+      vite: ^2.0.0
+    dependencies:
+      vite: 2.6.3
     dev: true
 
   /vite-plugin-pages/0.18.1_3c31e47dfa9787202537c5f61ba4bd24:

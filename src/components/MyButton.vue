@@ -1,27 +1,32 @@
 <template>
   <button
     ref="buttonRef"
-    :class="typeClasses"
     class="
       px-4
       py-2
       relative
       overflow-hidden
       transition
+      text-p
+      font-bold
       duration-400
       rounded-md
       focus:outline-none
+      text-white
     "
+    :class="{
+      'bg-primary': type === 'primary',
+      'bg-secondary': type === 'secondary',
+      'opacity-38': disabled,
+    }"
+    :disabled="disabled"
     @click="handleClick"
   >
     <slot name="default"></slot>
     <span
       v-if="showRipple"
-      class="ripple bg-opacity-40"
-      :class="{
-        'bg-purple-500': type === 'secondary',
-        'bg-white': type === 'primary',
-      }"
+      class="ripple bg-opacity-20"
+      :class="type"
       :style="{
         width: `${rippleSize}px`,
         height: `${rippleSize}px`,
@@ -33,7 +38,7 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps({
+defineProps({
   type: {
     type: String,
     default: 'primary',
@@ -41,16 +46,12 @@ const props = defineProps({
       return ['primary', 'secondary'].includes(val)
     },
   },
+  disabled: {
+    type: Boolean,
+    default: false,
+  },
 })
 const emits = defineEmits(['click'])
-// Classes depending on type
-const typeClasses = computed(() => {
-  if (props.type === 'primary') {
-    return 'bg-purple-500 text-white'
-  } else {
-    return 'border-2 border-opacity-50 border-purple-500 text-purple-500'
-  }
-})
 // Creating ripple effect
 const showRipple = ref(false)
 const buttonRef = ref<HTMLButtonElement>()
@@ -85,10 +86,20 @@ span.ripple {
   transform: scale(0);
   animation: ripple 400ms linear;
 }
+span.ripple.primary {
+  background-color: #fcd191b0;
+}
+span.ripple.secondary {
+  background-color: #a59dff6b;
+}
 @keyframes ripple {
   to {
     transform: scale(4);
     opacity: 0;
   }
+}
+.s {
+  color: #867bf7;
+  background: #f7b655;
 }
 </style>

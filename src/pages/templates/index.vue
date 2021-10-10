@@ -1,28 +1,25 @@
 <template>
-  <div>
-    <div class="flex items-center mb-8 w-full justify-between">
-      <div class="flex items-center">
-        <h5 class="text-xl mr-4">Templates</h5>
-        <my-button
-          class="py-1 px-3 rounded-full text-sm font-bold"
-          @click="router.push('/templates/new')"
-        >
-          <div class="flex items-center"><i-mdi-plus /> New Template</div>
-        </my-button>
-      </div>
-      <div class="flex items-center">
-        <my-input
-          placeholder="Search or filter"
-          v-model="search"
-          class="mr-2"
-        />
-        <my-button type="secondary" class="w-50">Upload File</my-button>
-      </div>
+  <div cass="flex flex-col">
+    <div class="flex items-center justify-between">
+      <h1 class="text-h1 font-extrabold mb-8">Templates</h1>
+      <my-button type="secondary" disabled class="my-auto"
+        >Upload File</my-button
+      >
     </div>
-    <p class="text-gray-600">
-      Select a template to use from below and upload your file to start
-      extracting information.
+    <p>On this page, you can do 2 things:</p>
+    <p>
+      1. Create a new template to tell us what fields to extract from a document
+      or
     </p>
+    <p>
+      2. Click on an existing template (if one exists below) and upload your
+      files.
+    </p>
+    <div class="flex mt-8">
+      <template-card>
+        <span class="text-h4 font-bold text-secondary"> + New Template </span>
+      </template-card>
+    </div>
   </div>
 </template>
 

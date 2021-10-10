@@ -8,6 +8,7 @@ import AutoImport from 'unplugin-auto-import/vite'
 import WindiCSS from 'vite-plugin-windicss'
 import Icons from 'unplugin-icons/vite'
 import IconsResolver from 'unplugin-icons/resolver'
+import Fonts from 'vite-plugin-fonts'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -15,6 +16,16 @@ export default defineConfig({
     Vue(),
     Pages(),
     Layouts(),
+    Fonts({
+      google: {
+        families: [
+          {
+            name: 'Poppins',
+            styles: 'wght@400;500;600;700;800',
+          },
+        ],
+      },
+    }),
     Components({
       dts: true,
       resolvers: [IconsResolver()],
