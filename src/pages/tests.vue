@@ -1,16 +1,30 @@
 <template>
-  <div>
-    <file-uploader
-      button-text="upload files"
-      multiple
-      @upload="handleMultipleUpload"
-    />
+  <div class="flex">
+    <div class="mr-20 flex flex-col items-center">
+      <file-uploader
+        button-text="upload files"
+        multiple
+        @upload="handleMultipleUpload"
+      />
+      <p class="text-p">Number of uploaded files: {{ files?.length || 0 }}</p>
+    </div>
+    <div class="flex flex-col flex-grow">
+      <h5 class="text-h3">Annotations to send</h5>
+      <textarea
+        v-model="annotationsToSend"
+        rows="20"
+        class="border-1 border-secondary focus:outline-none"
+      />
+      <my-button type="secondary" class="ml-auto mt-2" @click="makeRequest"
+        >Send to API</my-button
+      >
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import axios from 'axios'
-
+const annotationsToSend = ref('')
 const mockAnnotations = [
   {
     name: 'date',
@@ -37,17 +51,30 @@ const mockAnnotations = [
     height: 33,
   },
 ]
-const handleMultipleUpload = async (files: FileList) => {
+const files = ref<FileList>()
+
+const makeRequest = async () => {
+  if (!files.value) {
+    alert('No files selected')
+    return
+  }
   const formData = new FormData()
   const annotations = []
-  for (let i = 0; i < files.length; i++) {
+  for (let i = 0; i < files.value.length; i++) {
     annotations.push(mockAnnotations)
   }
   // @ts-ignore
-  for (const file of files) {
+  for (const file of files.value) {
     formData.append('files', file)
   }
-  formData.append('annotations', JSON.stringify(annotations))
+  if (annotationsToSend.value) {
+    formData.append(
+      'annotations',
+      JSON.stringify(annotationsToSend.value.replace(/(\r\n|\n|\r|\s)/gm, ''))
+    )
+  } else {
+    formData.append('annotations', JSON.stringify(annotations))
+  }
   try {
     await axios.post('/multitest', formData, {
       headers: {
@@ -58,6 +85,9 @@ const handleMultipleUpload = async (files: FileList) => {
   } finally {
     alert('sent to the API')
   }
+}
+const handleMultipleUpload = (uploadedFiles: FileList) => {
+  files.value = uploadedFiles
 }
 </script>
 
