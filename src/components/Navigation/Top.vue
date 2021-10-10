@@ -3,10 +3,11 @@
     class="
       flex
       items-center
-      justify-end
-      px-10
-      border-b-2 border-secondary
-      bg-gray1
+      md:justify-end
+      justify-between
+      py-2
+      px-5
+      md:py-0 md:px-10 md:border-b-2 md:border-secondary md:bg-gray1
     "
   >
     <i-codicon-bell class="mr-3" />

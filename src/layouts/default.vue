@@ -1,9 +1,19 @@
 <template>
-  <div class="w-full min-h-100vh grid-container">
-    <div class="logo border-b-2 border-r-2 border-secondary bg-gray1"></div>
+  <div class="w-full min-h-100vh grid-container flex flex-col justify-between">
+    <div
+      class="
+        hidden
+        md:block
+        logo
+        border-b-2 border-r-2 border-secondary
+        bg-gray1
+      "
+    ></div>
     <navigation-top class="top" />
+    <div class="p-5 md:p-12 lg:p-15 w-full flex-grow content">
+      <router-view />
+    </div>
     <sidebar v-if="route.path !== '/'" class="side" />
-    <div class="p-15 w-full flex-grow content"><router-view /></div>
   </div>
 </template>
 
@@ -12,30 +22,36 @@ const route = useRoute()
 </script>
 
 <style scoped>
-.grid-container {
-  display: grid;
-  grid-template-columns: 100px 1fr;
-  grid-template-rows: 70px 1fr;
-  gap: 0px 0px;
-  grid-auto-flow: row;
-  grid-template-areas:
-    'logo top'
-    'side content';
-}
-
-.logo {
-  grid-area: logo;
-}
-
-.top {
-  grid-area: top;
-}
-
-.side {
-  grid-area: side;
-}
-
 .content {
-  grid-area: content;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+@media (min-width: 768px) {
+  .grid-container {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    grid-template-rows: 70px 1fr;
+    gap: 0px 0px;
+    grid-auto-flow: row;
+    grid-template-areas:
+      'logo top'
+      'side content';
+  }
+
+  .logo {
+    grid-area: logo;
+  }
+
+  .top {
+    grid-area: top;
+  }
+
+  .side {
+    grid-area: side;
+  }
+
+  .content {
+    grid-area: content;
+  }
 }
 </style>

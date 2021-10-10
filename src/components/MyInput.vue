@@ -10,6 +10,7 @@
       text-gray-500
       placeholder-gray-400
     "
+    :type="type"
   />
 </template>
 
@@ -22,6 +23,10 @@ defineProps({
   placeholder: {
     type: String,
     default: '',
+  },
+  type: {
+    type: String,
+    default: 'text',
   },
 })
 const updateValue = (e: Event) => {

@@ -23,9 +23,6 @@
   </div>
 </template>
 
-<script setup lang="ts">
-const router = useRouter()
-const search = ref('')
-</script>
+<script setup lang="ts"></script>
 
 <style scoped></style>

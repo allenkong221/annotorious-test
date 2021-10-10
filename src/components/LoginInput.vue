@@ -6,6 +6,7 @@
       :value="modelValue"
       :placeholder="placeholder"
       class="py-3 focus:outline-none placeholder-gray2"
+      :type="type"
     />
   </div>
 </template>
@@ -23,6 +24,10 @@ defineProps({
   label: {
     type: String,
     default: 'Label',
+  },
+  type: {
+    type: String,
+    default: 'text',
   },
 })
 const updateValue = (e: Event) => {

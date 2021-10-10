@@ -7,19 +7,19 @@ export const useMenu = () => {
   return {
     menuItems: [
       {
-        name: 'Templates',
-        icon: edit,
-        path: '/templates',
-      },
-      {
         name: 'Dashboard',
         icon: dashboard,
         path: '/dashboard',
       },
       {
-        name: 'Account',
+        name: 'Templates',
+        icon: edit,
+        path: '/templates',
+      },
+      {
+        name: 'Profile',
         icon: user,
-        path: '/account',
+        path: '/profile',
       },
     ],
   }

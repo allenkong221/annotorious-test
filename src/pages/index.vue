@@ -9,10 +9,7 @@ meta:
 </route>
 
 <script setup lang="ts">
-import { googleLogin } from '~/composables/firebase/auth'
-
-const signInEmail = ref()
-const signInPassword = ref()
+// import { googleLogin } from '~/composables/firebase/auth'
 
 const handleEmailLogin = async ({
   email,
@@ -30,13 +27,13 @@ const handleEmailLogin = async ({
 }
 
 const router = useRouter()
-const handleGoogleLogin = async () => {
-  await googleLogin()
-  console.log('pushing')
-  router.push({
-    path: '/templates',
-  })
-}
+// const handleGoogleLogin = async () => {
+//   await googleLogin()
+//   console.log('pushing')
+//   router.push({
+//     path: '/templates',
+//   })
+// }
 </script>
 
 <style scoped></style>
