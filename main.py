@@ -1,5 +1,6 @@
 from typing import Dict, List, Optional
 from fastapi import  FastAPI, Form, Body, Request, File, UploadFile
+from fastapi.routing import run_endpoint_function
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 from fastapi.responses import HTMLResponse, FileResponse
@@ -74,6 +75,27 @@ async def data(file: UploadFile = File(...), annotations: str = Body(...)):
     for item in str_annotations:
         img = crop_image(item, 'data/test.jpg')
         results[item['name']] = extract_text(img)
+
+    print(results)
+
+    return {"message": results}
+
+@app.post("/multitest")
+async def multidata(files: List[UploadFile] = File(...), annotations: str = Body(...)):
+    results = []
+    str_annotations = json.loads(str(annotations))[0]
+
+    for file in files:
+        extract = {}
+        contents = await file.read()
+        with open('data/test.jpg', 'wb') as f:
+            f.write(contents)
+
+        for item in str_annotations:
+            img = crop_image(item, 'data/test.jpg')
+            extract[item['name']] = extract_text(img)
+        
+        results.append(extract)
 
     print(results)
 
