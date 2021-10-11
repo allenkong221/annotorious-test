@@ -12,6 +12,12 @@ import './'
 const auth = getAuth()
 export const currentUser = ref()
 
+export const useAuth = () => {
+  return {
+    currentUser,
+    emailLogin,
+  }
+}
 /**
  * Handles Google Login
  * @returns True if login was successful, false otherwise
@@ -30,7 +36,7 @@ export const googleLogin = async () => {
 /**
  * Handles E-mail/Password Login
  */
-export const emailLogin = async (email: string, password: string) => {
+const emailLogin = async (email: string, password: string) => {
   const [err, res] = await to(signInWithEmailAndPassword(auth, email, password))
   if (err) {
     console.error(err)

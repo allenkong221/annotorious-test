@@ -16,13 +16,15 @@
       files.
     </p>
     <div class="flex mt-8">
-      <template-card>
+      <template-card @click="router.push('/templates/new')">
         <span class="text-h4 font-bold text-secondary"> + New Template </span>
       </template-card>
     </div>
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+const router = useRouter()
+</script>
 
 <style scoped></style>

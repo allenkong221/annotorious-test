@@ -31,6 +31,7 @@ specifiers:
   vite-plugin-windicss: ^1.4.9
   vue: ^3.2.19
   vue-router: ^4.0.11
+  vue-toastification: ^2.0.0-rc.1
   windicss: ^3.1.8
 
 dependencies:
@@ -44,6 +45,7 @@ dependencies:
   uuid: 8.3.2
   vue: 3.2.19
   vue-router: 4.0.11_vue@3.2.19
+  vue-toastification: 2.0.0-rc.1_vue@3.2.19
 
 devDependencies:
   '@iconify/json': 1.1.411
@@ -3521,6 +3523,14 @@ packages:
       vue: ^3.0.0
     dependencies:
       '@vue/devtools-api': 6.0.0-beta.17
+      vue: 3.2.19
+    dev: false
+
+  /vue-toastification/2.0.0-rc.1_vue@3.2.19:
+    resolution: {integrity: sha512-hjauv/FyesNZdwcr5m1SCyvu1JmlB+Ts5bTptDLDmsYYlj6Oqv8NYakiElpCF+Abwkn9J/AChh6FwkTL1HOb7Q==}
+    peerDependencies:
+      vue: ^3.0.2
+    dependencies:
       vue: 3.2.19
     dev: false
 

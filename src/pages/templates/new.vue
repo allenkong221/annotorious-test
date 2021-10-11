@@ -5,62 +5,34 @@
       <my-stepper :steps="steps" :active-index="newTemplateStep" />
     </div>
     <div class="flex flex-grow">
-      <div
-        class="
-          w-7/10
-          border-2 border-purple-500
-          h-full
-          flex
-          justify-center
-          items-center
-          flex-col
-          relative
-        "
-      >
-        <div v-if="newTemplateImage" class="relative">
-          <img :src="newTemplateImage" ref="templateImgRef" />
-          <template-markers :scale="templateScale" />
-        </div>
-        <div v-if="newTemplateImage"></div>
-        <div v-else class="flex flex-col w-1/2">
-          <span class="text-2xl text-center text-gray-500 mb-6"
-            >The photo should have adequate lightning and should be as straight
-            as possible</span
-          >
-
-          <file-uploader
-            button-text="Add sample document"
-            @upload="handleTemplateUpload"
-          />
-        </div>
+      <new-template-box class="w-7/10 h-full" />
+      <!-- <template v-if="newTemplateStep === 0"> -->
+      <div class="w-3/10 flex flex-col pl-5" v-if="!newTemplateImage">
+        <h5 class="text-xl mb-4">Upload Sample Document</h5>
+        <span class="text-gray-500 text-lg mb-4">
+          To start creating a new template, first upload an image on the left
+          box
+        </span>
+        <my-button type="secondary">
+          <div class="flex items-center justify-center">
+            <span>Next</span><i-carbon-caret-right />
+          </div>
+        </my-button>
       </div>
-      <template v-if="newTemplateStep === 0">
-        <div class="w-3/10 flex flex-col pl-5" v-if="!newTemplateImage">
-          <h5 class="text-xl mb-4">Upload Sample Document</h5>
-          <span class="text-gray-500 text-lg mb-4">
-            To start creating a new template, first upload an image on the left
-            box
-          </span>
-          <my-button type="secondary">
-            <div class="flex items-center justify-center">
-              <span>Next</span><i-carbon-caret-right />
-            </div>
-          </my-button>
-        </div>
-        <div class="w-3/10 flex flex-col pl-5" v-else>
-          <h5 class="text-xl mb-4">Upload Sample Document</h5>
-          <span class="text-gray-500 text-lg mb-4">
-            Alright, you successfully uploaded an image. Now check if you
-            selected the correct image and we can move on!
-          </span>
-          <my-button type="primary" @click="newTemplateStep = 1">
-            <div class="flex items-center justify-center">
-              <span>Next</span><i-carbon-caret-right />
-            </div>
-          </my-button>
-        </div>
-      </template>
-      <template v-else-if="newTemplateStep === 1">
+      <div class="w-3/10 flex flex-col pl-5" v-else>
+        <h5 class="text-xl mb-4">Upload Sample Document</h5>
+        <span class="text-gray-500 text-lg mb-4">
+          Alright, you successfully uploaded an image. Now check if you selected
+          the correct image and we can move on!
+        </span>
+        <my-button type="primary" @click="newTemplateStep = 1">
+          <div class="flex items-center justify-center">
+            <span>Next</span><i-carbon-caret-right />
+          </div>
+        </my-button>
+      </div>
+      <!-- </template> -->
+      <!-- <template v-else-if="newTemplateStep === 1">
         <div class="flex flex-col w-3/10 px-5">
           <h5 class="text-xl mb-4">Label the document</h5>
           <p class="text-gray-500">
@@ -73,40 +45,29 @@
             >Submit Template</my-button
           >
         </div>
-      </template>
+      </template> -->
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { useAnnotations } from '~/composables/annotations'
-import { newTemplateStep, useTemplates } from '~/composables/templates'
+import { useTemplates } from '~/composables/templates'
 
-const { steps, newTemplateImage, setNewTemplate } = useTemplates()
-const templateImgRef = ref<HTMLImageElement>()
+const { steps, newTemplateImage, newTemplateStep } = useTemplates()
 
-const { initAnnotations, getCurrentAnnotations } = useAnnotations()
-const templateScale = ref(0)
-const handleTemplateUpload = async (files: FileList) => {
-  setNewTemplate(files)
-  await nextTick()
-}
-const submitNewTemplate = () => {
-  console.log(getCurrentAnnotations())
-}
-watch(
-  () => newTemplateStep.value,
-  (newStep, oldStep) => {
-    if (newStep === 1 && oldStep === 0) {
-      initAnnotations(templateImgRef.value!)
-      const tempImg = new Image()
-      tempImg.src = newTemplateImage.value
-      tempImg.onload = () => {
-        templateScale.value = templateImgRef.value?.width! / tempImg.width
-      }
-    }
-  }
-)
+// watch(
+//   () => newTemplateStep.value,
+//   (newStep, oldStep) => {
+//     if (newStep === 1 && oldStep === 0) {
+//       initAnnotations(templateImgRef.value!)
+//       const tempImg = new Image()
+//       tempImg.src = newTemplateImage.value
+//       tempImg.onload = () => {
+//         templateScale.value = templateImgRef.value?.width! / tempImg.width
+//       }
+//     }
+//   }
+// )
 </script>
 
 <style scoped></style>

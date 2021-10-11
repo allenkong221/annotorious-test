@@ -1,35 +1,42 @@
 <template>
-  <div>
-    <my-button
-      ref="buttonRef"
-      type="secondary"
-      class="text-lg"
-      @click="inputRef.click()"
-      >{{ buttonText }}</my-button
-    >
+  <div
+    class="
+      relative
+      flex
+      w-full
+      justify-center
+      items-center
+      border-1 border-secondary
+      p-2
+    "
+    @click="inputRef.click()"
+  >
+    <span class="text-h3 font-bold text-secondary">Add +</span>
+    <div
+      class="
+        absolute
+        top-0
+        left-0
+        w-full
+        h-full
+        hover:bg-gray2
+        transition
+        hover:bg-opacity-15
+        cursor-pointer
+      "
+    ></div>
     <input
       ref="inputRef"
       type="file"
       accept="image/*"
       @change="uploadFiles"
-      :multiple="multiple"
-      @click="emits('click')"
+      multiple
       class="hidden"
     />
   </div>
 </template>
 
 <script setup lang="ts">
-defineProps({
-  multiple: {
-    type: Boolean,
-    default: false,
-  },
-  buttonText: {
-    type: String,
-    required: true,
-  },
-})
 const inputRef = ref()
 const emits = defineEmits<{
   (e: 'click'): void
@@ -43,3 +50,5 @@ const uploadFiles = (event: Event) => {
   }
 }
 </script>
+
+<style scoped></style>

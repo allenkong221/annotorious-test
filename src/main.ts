@@ -2,6 +2,8 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
 import { createPinia } from 'pinia'
+import Toast, { PluginOptions } from 'vue-toastification'
+import 'vue-toastification/dist/index.css'
 // windicss layers
 import 'virtual:windi-base.css'
 import 'virtual:windi-components.css'
@@ -14,6 +16,10 @@ import 'virtual:windi-devtools'
 const plugins = import.meta.globEager('./plugins/*.js')
 export const app = createApp(App)
 
+const options: PluginOptions = {
+  timeout: 4000,
+}
+app.use(Toast, options)
 // Router setup (vue-router)
 app.use(router)
 

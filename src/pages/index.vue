@@ -1,6 +1,14 @@
 <template>
-  <div class="flex flex-col items-center justify-center h-full bg-gray1">
+  <div
+    class="relative flex flex-col items-center justify-center h-full bg-gray1"
+  >
     <login-card @submit="handleEmailLogin" />
+    <transition name="fade" mode="in-out">
+      <div
+        v-if="showLoader"
+        class="absolute top-0 left-0 w-full h-full bg-gray1"
+      ></div>
+    </transition>
   </div>
 </template>
 <route lang="yaml">
@@ -10,7 +18,12 @@ meta:
 
 <script setup lang="ts">
 // import { googleLogin } from '~/composables/firebase/auth'
+import { useToast } from 'vue-toastification'
+import { useAuth } from '~/composables/firebase/auth'
 
+const toast = useToast()
+const showLoader = ref(false)
+const { emailLogin } = useAuth()
 const handleEmailLogin = async ({
   email,
   password,
@@ -18,12 +31,17 @@ const handleEmailLogin = async ({
   email: string
   password: string
 }) => {
-  // const login = await emailLogin(signInEmail.value, signInPassword.value)
-  // console.log(login)
-  console.log(email, password)
-  router.push({
-    path: '/templates',
-  })
+  const login = await emailLogin(email, password)
+  if (!login) {
+    toast.error('Invalid e-mail or password')
+    return
+  }
+  showLoader.value = true
+  setTimeout(() => {
+    router.push({
+      path: '/templates',
+    })
+  }, 200)
 }
 
 const router = useRouter()
@@ -36,4 +54,15 @@ const router = useRouter()
 // }
 </script>
 
-<style scoped></style>
+<style scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.2s ease-in-out;
+}
+
+.fade-enter,
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+</style>

@@ -65,6 +65,7 @@ const route = useRoute()
 
   .content {
     grid-area: content;
+    max-height: none;
   }
 }
 </style>
