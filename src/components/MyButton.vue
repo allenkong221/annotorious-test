@@ -9,15 +9,20 @@
       transition
       text-p
       font-bold
-      duration-400
+      duration-200
       rounded-md
       focus:outline-none
-      text-white
     "
     :class="{
-      'bg-primary': type === 'primary',
-      'bg-secondary': type === 'secondary',
+      [`bg-${type}`]: !outlined,
+      'bg-yellow': type === 'primary' && outlined,
+      [`text-${type}`]: outlined,
+      [`border-${type}`]: outlined,
+      'border-2': outlined,
+      'text-white': !outlined,
       'opacity-38': disabled,
+      [`hover:bg-${type}`]: outlined,
+      [`hover:text-white`]: outlined,
     }"
     :disabled="disabled"
     @click="handleClick"
@@ -26,8 +31,12 @@
     <slot name="default"></slot>
     <span
       v-if="showRipple"
-      class="ripple bg-opacity-20"
-      :class="type"
+      class="ripple"
+      :class="{
+        primary: type === 'primary',
+        secondary: type === 'secondary',
+        outlined: !!outlined,
+      }"
       :style="{
         width: `${rippleSize}px`,
         height: `${rippleSize}px`,
@@ -55,6 +64,10 @@ defineProps({
     type: Boolean,
     default: false,
   },
+  outlined: {
+    type: Boolean,
+    default: false,
+  },
 })
 const emits = defineEmits(['click'])
 // Creating ripple effect
@@ -68,6 +81,7 @@ const rippleSize = ref(0)
 const rippleTop = ref(0)
 const rippleLeft = ref(0)
 const createRipple = async (event: MouseEvent) => {
+  console.log('rippling')
   if (buttonRef.value) {
     showRipple.value = false
     await nextTick()
@@ -88,6 +102,7 @@ const createRipple = async (event: MouseEvent) => {
 span.ripple {
   position: absolute;
   border-radius: 50%;
+  z-index: 1;
   transform: scale(0);
   animation: ripple 400ms linear;
 }
