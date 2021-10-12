@@ -13,6 +13,7 @@ declare module 'vue' {
     ICarbonCaretLeft: typeof import('~icons/carbon/caret-left')['default']
     ICarbonCaretRight: typeof import('~icons/carbon/caret-right')['default']
     ICodiconBell: typeof import('~icons/codicon/bell')['default']
+    IFeLayer: typeof import('~icons/fe/layer')['default']
     IMdiBell: typeof import('~icons/mdi/bell')['default']
     IMdiCheck: typeof import('~icons/mdi/check')['default']
     IMdiClose: typeof import('~icons/mdi/close')['default']

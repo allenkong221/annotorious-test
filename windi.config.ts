@@ -4,6 +4,8 @@ import { defineConfig } from 'windicss/helpers'
 export default defineConfig({
   // https://windicss.org/posts/v30.html#attributify-mode
   // attributify: true,
+  safelist:
+    'bg-primary bg-secondary text-primary text-secondary border-primary border-secondary hover:bg-primary hover:bg-secondary',
   theme: {
     extend: {
       colors: {

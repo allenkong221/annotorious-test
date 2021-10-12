@@ -1,19 +1,17 @@
 <template>
   <div cass="flex flex-col">
     <div class="flex items-center justify-between">
-      <h1 class="text-h1 font-extrabold mb-8">Templates</h1>
+      <div class="flex items-center mb-8">
+        <i-fe-layer class="text-h1 text-secondary mr-2" />
+        <h1 class="text-h1 font-extrabold">Templates</h1>
+      </div>
       <my-button type="secondary" disabled class="my-auto"
         >Upload File</my-button
       >
     </div>
-    <p>On this page, you can do 2 things:</p>
-    <p>
-      1. Create a new template to tell us what fields to extract from a document
-      or
-    </p>
-    <p>
-      2. Click on an existing template (if one exists below) and upload your
-      files.
+    <p class="text-p">
+      Create a new template or use an existing template to extract data from
+      your documents.
     </p>
     <div class="flex mt-8">
       <template-card @click="router.push('/templates/new')">

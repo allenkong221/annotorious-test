@@ -1,7 +1,7 @@
 // @ts-nocheck
-import edit from '~icons/file-icons/closuretemplate'
 import dashboard from '~icons/lucide/layout-dashboard'
 import user from '~icons/ri/user-line'
+import template from '~icons/fe/layer'
 
 export const useMenu = () => {
   return {
@@ -13,7 +13,7 @@ export const useMenu = () => {
       },
       {
         name: 'Templates',
-        icon: edit,
+        icon: template,
         path: '/templates',
       },
       {
