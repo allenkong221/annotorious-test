@@ -36,8 +36,8 @@ const route = useRoute()
   opacity: 0;
 }
 .content {
-  max-height: 80vh;
   overflow-y: auto;
+  flex: 1 1 0px;
 }
 @media (min-width: 768px) {
   .grid-container {
