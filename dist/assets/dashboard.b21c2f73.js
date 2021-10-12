@@ -1,0 +1,1 @@
+import{_ as e}from"./index.52340ed8.js";import{o,c as s,b as t}from"./vendor.d10b3eb4.js";const a={},c={cass:"flex flex-col"},r=t("h1",{class:"text-h1 font-extrabold mb-8"},"Dashboard",-1),d=[r];function n(_,f){return o(),s("div",c,d)}var h=e(a,[["render",n]]);export{h as default};
