@@ -3,7 +3,7 @@
     @click="emits('click')"
     class="
       template-card
-      border border-secondary
+      border-dashed border-2 border-secondary
       rounded-lg
       h-64
       w-64
@@ -11,7 +11,8 @@
       justify-center
       items-center
       cursor-pointer
-      hover:bg-gray1
+      bg-gray1
+      hover:bg-gray2 hover:bg-opacity-25
       transition
     "
   >

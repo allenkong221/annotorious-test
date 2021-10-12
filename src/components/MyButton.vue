@@ -22,7 +22,7 @@
       'text-white': !outlined,
       'opacity-38': disabled,
       [`hover:bg-${type}`]: outlined,
-      [`hover:text-white`]: outlined,
+      'hover:text-white': outlined,
     }"
     :disabled="disabled"
     @click="handleClick"

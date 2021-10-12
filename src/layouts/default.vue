@@ -1,16 +1,7 @@
 <template>
   <div class="w-full min-h-100vh grid-container flex flex-col justify-between">
-    <div
-      class="
-        hidden
-        md:block
-        logo
-        border-b-2 border-r-2 border-secondary
-        bg-gray1
-      "
-    ></div>
     <navigation-top class="top" />
-    <div class="p-5 md:p-12 lg:p-15 w-full flex-grow content">
+    <div class="p-5 md:p-12 lg:px-15 lg:py-2 w-full flex-grow content">
       <router-view v-slot="{ Component, route }">
         <transition name="fade" mode="out-in">
           <component :is="Component" :key="route" />
@@ -43,11 +34,11 @@ const route = useRoute()
   .grid-container {
     display: grid;
     grid-template-columns: 100px 1fr;
-    grid-template-rows: 70px 1fr;
+    grid-template-rows: 50px 1fr;
     gap: 0px 0px;
     grid-auto-flow: row;
     grid-template-areas:
-      'logo top'
+      'side top'
       'side content';
   }
 
