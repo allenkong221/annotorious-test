@@ -21,6 +21,7 @@
     }"
     :disabled="disabled"
     @click="handleClick"
+    :type="submit ? 'submit' : 'button'"
   >
     <slot name="default"></slot>
     <span
@@ -47,6 +48,10 @@ defineProps({
     },
   },
   disabled: {
+    type: Boolean,
+    default: false,
+  },
+  submit: {
     type: Boolean,
     default: false,
   },

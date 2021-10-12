@@ -17,20 +17,22 @@
       <h1 class="text-secondary text-h1 font-bold text-center my-16">
         Tolstoy
       </h1>
-      <login-input label="E-mail" v-model="userEmail" class="mb-6 text-p" />
-      <login-input
-        label="Password"
-        type="password"
-        v-model="userPassword"
-        class="mb-2 text-p"
-      />
-      <small class="text-small ml-auto">Forgot password?</small>
-      <my-button
-        type="secondary"
-        @click="handleLogin"
-        class="mx-auto px-20 mt-16 mb-10 text-h3"
-        >Login</my-button
-      >
+      <form @submit.prevent="handleLogin" class="flex flex-col">
+        <login-input label="E-mail" v-model="userEmail" class="mb-6 text-p" />
+        <login-input
+          label="Password"
+          type="password"
+          v-model="userPassword"
+          class="mb-2 text-p"
+        />
+        <small class="text-small ml-auto">Forgot password?</small>
+        <my-button
+          submit
+          type="secondary"
+          class="mx-auto px-20 mt-16 mb-10 text-h3"
+          >Login</my-button
+        >
+      </form>
     </div>
   </div>
 </template>
