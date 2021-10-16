@@ -2,7 +2,8 @@
   <div class="flex flex-col overflow-y-auto p-4 overflow-x-hidden">
     <div
       v-for="(image, i) in templateImages"
-      class="relative w-full border-1 border-secondary my-2"
+      class="relative w-full border-1 border-secondary my-3 p-1"
+      :class="{ ['border-opacity-40']: i !== 0 && !firstTemplateReady }"
       @click="changeCurrentTemplate(i)"
     >
       <img :src="image" ref="templateImgRef" class="object-cover w-full" />
@@ -26,6 +27,10 @@
         <i-mdi-close />
       </div>
       <div
+        :class="{
+          ['bg-gray2 bg-opacity-20']: i !== 0 && !firstTemplateReady,
+          'cursor-pointer': i === 0 || firstTemplateReady,
+        }"
         class="
           absolute
           top-0
@@ -35,7 +40,6 @@
           hover:bg-gray2
           transition
           hover:bg-opacity-15
-          cursor-pointer
         "
       ></div>
       <template-markers :scale="1" />
@@ -52,19 +56,19 @@ const {
   selectedTemplateIndex,
   templateAnnotations,
   templateRawAnnotations,
+  firstTemplateReady,
 } = useTemplates()
-const { annotations, getRawAnnotations, setRawAnnotations } = useAnnotations()
+const { annotations, getRawAnnotations } = useAnnotations()
 const changeCurrentTemplate = (newIndex: number) => {
-  console.log('1')
+  if (!firstTemplateReady.value && selectedTemplateIndex.value === 0) {
+    return
+  }
   const oldIndex = selectedTemplateIndex.value
   const oldRawAnnotations = getRawAnnotations()
-  console.log(oldRawAnnotations)
   templateRawAnnotations.value[oldIndex] = oldRawAnnotations
   templateAnnotations.value[oldIndex] = annotations.value
   selectedTemplateIndex.value = newIndex
   annotations.value = templateAnnotations.value[newIndex]
-  // setRawAnnotations(templateRawAnnotations.value[newIndex])
-  // console.log(templateRawAnnotations.value[newIndex])
 }
 </script>
 

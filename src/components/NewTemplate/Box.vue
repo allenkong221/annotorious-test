@@ -79,7 +79,7 @@
         <div class="flex-1 h-full relative" ref="imageWrapper">
           <img ref="imgRef" :src="templateImages[selectedTemplateIndex]" />
           <new-template-mouse-cross
-            :mouse-info="mouseInElement"
+            :mouse-info="mouseInElement!"
             :img-height="realImgHeight"
           />
           <template-markers :scale="currentScale" />

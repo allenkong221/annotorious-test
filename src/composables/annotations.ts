@@ -6,6 +6,7 @@ import {
   FormattedAnnotation,
 } from '~/types/customTypes'
 import '@recogito/annotorious/dist/annotorious.min.css'
+import { useTemplates } from './templates'
 
 const translateAnnotationInfo = (value: string) => {
   const cleanValue = value.substr(11)
@@ -21,6 +22,7 @@ const translateAnnotationInfo = (value: string) => {
 const anno = ref()
 const selectedAnnotationId = ref('')
 const annotations = ref<FormattedAnnotation[]>([])
+const { selectedTemplateIndex, templateAnnotations } = useTemplates()
 export const useAnnotations = () => {
   return {
     anno,
@@ -80,9 +82,14 @@ export const useAnnotations = () => {
       selectedAnnotationId.value = ''
       annotations.value.splice(deletedIndex, 1)
       anno.value.cancelSelected()
+      templateAnnotations.value[selectedTemplateIndex.value] = annotations.value
     },
     getCurrentAnnotations: () => {
       return annotations.value
+    },
+    selectAnnotation: (annotationId: string) => {
+      anno.value.selectAnnotation(annotationId)
+      selectedAnnotationId.value = annotationId
     },
     getRawAnnotations: () => {
       return anno.value.getAnnotations()

@@ -29,10 +29,30 @@
             <h5 class="text-h2 font-bold mb-4 text-gray4">
               2. Label the Documents
             </h5>
-            <p class="text-gray4 text-p mb-4">
+            <p
+              class="text-gray4 text-p mb-4"
+              v-if="selectedTemplateIndex === 0"
+            >
               Create a bounding box around each text area you want to capture
-              and give it a label.
+              and give it a label. Once you've finished labeling, click 'Next'.
             </p>
+            <p
+              class="text-gray4 text-p mb-4"
+              v-else-if="selectedTemplateIndex !== 0"
+            >
+              Great job! You've labelled your first document. For the remaining
+              documents, adjust each bounding box to ensure the texts are
+              covered.
+            </p>
+            <new-template-label-list />
+            <div class="mt-auto flex flex-col">
+              <p class="text-p text-gray4 mb-2">
+                Once you have finished labeling this document, click Next.
+              </p>
+              <my-button outlined @click="handleAdvanceTemplate"
+                >Next</my-button
+              >
+            </div>
           </template>
         </div>
       </div>
@@ -41,6 +61,7 @@
 </template>
 
 <script setup lang="ts">
+import { useAnnotations } from '~/composables/annotations'
 import { useTemplates } from '~/composables/templates'
 
 const {
@@ -51,8 +72,11 @@ const {
   templateImages,
   templateAnnotations,
   templateRawAnnotations,
+  selectedTemplateIndex,
+  firstTemplateReady,
 } = useTemplates()
 
+const { getRawAnnotations, annotations } = useAnnotations()
 const startLabeling = () => {
   newTemplateStep.value = 1
   const totalTemplates = templateImages.value.length
@@ -62,6 +86,22 @@ const startLabeling = () => {
     templateAnnotations.value.push([])
     templateRawAnnotations.value.push([])
   }
+}
+
+const handleAdvanceTemplate = () => {
+  if (selectedTemplateIndex.value === 0) {
+    firstTemplateReady.value = true
+  }
+  changeCurrentTemplate(selectedTemplateIndex.value + 1)
+}
+
+const changeCurrentTemplate = (newIndex: number) => {
+  const oldIndex = selectedTemplateIndex.value
+  const oldRawAnnotations = getRawAnnotations()
+  templateRawAnnotations.value[oldIndex] = oldRawAnnotations
+  templateAnnotations.value[oldIndex] = annotations.value
+  selectedTemplateIndex.value = newIndex
+  annotations.value = templateAnnotations.value[newIndex]
 }
 </script>
 

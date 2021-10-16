@@ -23,7 +23,6 @@ defineProps({
   },
   mouseInfo: {
     type: Object as PropType<UseMouseInElementReturn>,
-    required: true,
   },
   imgHeight: {
     type: Number,

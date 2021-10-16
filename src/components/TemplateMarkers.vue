@@ -25,7 +25,8 @@
           mb-4
           px-2
         "
-        v-model="currentLabel"
+        :value="currentLabel"
+        @input="customLabelInput"
       />
       <my-button
         @click="saveAnnotation"
@@ -40,9 +41,10 @@
 
 <script setup lang="ts">
 import { useAnnotations } from '~/composables/annotations'
+import { useTemplates } from '~/composables/templates'
 const { annotations, selectedAnnotationId, removeAnnotation, cancelSelection } =
   useAnnotations()
-
+const { templateAnnotations, selectedTemplateIndex } = useTemplates()
 defineProps({
   scale: {
     type: Number,
@@ -50,8 +52,13 @@ defineProps({
   },
 })
 
-const deleteAnnotation = () => {
-  removeAnnotation(selectedAnnotationId.value)
+// const deleteAnnotation = () => {
+//   removeAnnotation(selectedAnnotationId.value)
+// }
+
+const customLabelInput = (e: Event) => {
+  const target = e.target as HTMLInputElement
+  currentLabel.value = target.value.replaceAll(' ', '_')
 }
 
 const saveAnnotation = async () => {
@@ -63,6 +70,7 @@ const saveAnnotation = async () => {
     targetAnnotation.new = false
     selectedAnnotationId.value = ''
     cancelSelection()
+    templateAnnotations.value[selectedTemplateIndex.value] = annotations.value
   }
 }
 

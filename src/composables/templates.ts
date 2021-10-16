@@ -9,11 +9,13 @@ const showNewTemplateModal = ref(false)
 const selectedTemplateIndex = ref(0)
 const templateAnnotations = ref<Array<FormattedAnnotation[]>>([])
 const templateRawAnnotations = ref<any[][]>([])
+const firstTemplateReady = ref(false)
 export const useTemplates = () => {
   return {
     steps: [{ name: 'Upload sample document' }, { name: 'Manage labels' }],
     templateImages,
     templateFiles,
+    firstTemplateReady,
     newTemplateStep,
     showNewTemplateModal,
     selectedTemplateIndex,
