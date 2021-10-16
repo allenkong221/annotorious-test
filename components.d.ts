@@ -35,6 +35,7 @@ declare module 'vue' {
     NewTemplateImageCarousel: typeof import('C:/Users/Administrator/Documents/Projects/Personal/annotorious-test/src/components/NewTemplate/ImageCarousel.vue')['default']
     NewTemplateLabelList: typeof import('C:/Users/Administrator/Documents/Projects/Personal/annotorious-test/src/components/NewTemplate/LabelList.vue')['default']
     NewTemplateModal: typeof import('C:/Users/Administrator/Documents/Projects/Personal/annotorious-test/src/components/NewTemplate/Modal.vue')['default']
+    NewTemplateMouseCross: typeof import('C:/Users/Administrator/Documents/Projects/Personal/annotorious-test/src/components/NewTemplate/MouseCross.vue')['default']
     SelectionPanel: typeof import('C:/Users/Administrator/Documents/Projects/Personal/annotorious-test/src/components/SelectionPanel.vue')['default']
     Sidebar: typeof import('C:/Users/Administrator/Documents/Projects/Personal/annotorious-test/src/components/Sidebar/Index.vue')['default']
     TemplateCard: typeof import('C:/Users/Administrator/Documents/Projects/Personal/annotorious-test/src/components/TemplateCard.vue')['default']

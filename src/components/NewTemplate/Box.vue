@@ -75,9 +75,13 @@
     </template>
     <template v-else-if="newTemplateStep === 1">
       <div class="flex h-full">
-        <new-template-image-carousel class="w-35" />
-        <div class="flex-1 h-full relative">
+        <new-template-image-carousel class="w-30 mr-5" />
+        <div class="flex-1 h-full relative" ref="imageWrapper">
           <img ref="imgRef" :src="templateImages[selectedTemplateIndex]" />
+          <new-template-mouse-cross
+            :mouse-info="mouseInElement"
+            :img-height="realImgHeight"
+          />
           <template-markers :scale="currentScale" />
         </div>
       </div>
@@ -86,6 +90,7 @@
 </template>
 
 <script setup lang="ts">
+import { useMouseInElement, UseMouseInElementReturn } from '@vueuse/core'
 import { useAnnotations } from '~/composables/annotations'
 import { useTemplates } from '~/composables/templates'
 
@@ -101,7 +106,9 @@ const {
 
 const { initAnnotations, destroyAnnotations, setRawAnnotations } =
   useAnnotations()
+const imageWrapper = ref()
 const currentScale = ref(0)
+const realImgHeight = ref(0)
 const imgRef = ref<HTMLImageElement>()
 watch(newTemplateStep, async (newStep) => {
   if (newStep === 1) {
@@ -109,6 +116,7 @@ watch(newTemplateStep, async (newStep) => {
     initializeAnnotations()
   }
 })
+const mouseInElement = ref<UseMouseInElementReturn>()
 
 watch(selectedTemplateIndex, async (val) => {
   await nextTick()
@@ -122,10 +130,14 @@ const updateScale = () => {
   tempImg.src = templateImages.value[selectedTemplateIndex.value]
   tempImg.onload = () => {
     currentScale.value = imgRef.value?.width! / tempImg.width
+    realImgHeight.value = imgRef.value?.height!
   }
 }
 const initializeAnnotations = () => {
   initAnnotations(imgRef.value!)
+  mouseInElement.value = useMouseInElement(
+    imageWrapper.value.querySelector('div')
+  )
   updateScale()
 }
 </script>
