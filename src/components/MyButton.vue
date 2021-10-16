@@ -81,7 +81,6 @@ const rippleSize = ref(0)
 const rippleTop = ref(0)
 const rippleLeft = ref(0)
 const createRipple = async (event: MouseEvent) => {
-  console.log('rippling')
   if (buttonRef.value) {
     showRipple.value = false
     await nextTick()

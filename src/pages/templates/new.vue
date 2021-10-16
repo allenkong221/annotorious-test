@@ -4,20 +4,16 @@
       <back-button class="mr-16" />
       <my-stepper :steps="steps" :active-index="newTemplateStep" />
     </div>
-    <div class="flex flex-grow">
-      <new-template-box class="w-7/10 h-full" />
-      <!-- <template v-if="newTemplateStep === 0"> -->
-      <div class="w-3/10 flex flex-col pl-5" v-if="!newTemplateImage">
-        <h5 class="text-xl mb-4">Upload Sample Document</h5>
-        <span class="text-gray-500 text-lg mb-4">
-          To start creating a new template, first upload an image on the left
-          box
-        </span>
-        <my-button type="secondary">
-          <div class="flex items-center justify-center">
-            <span>Next</span><i-carbon-caret-right />
-          </div>
-        </my-button>
+    <div class="flex h-full">
+      <new-template-box class="w-60/100 h-full" />
+      <div class="w-40/100 flex flex-col pl-5" v-if="!newTemplateImage">
+        <h5 class="text-h2 font-bold mb-4 text-gray4">
+          1. Upload Sample Documents
+        </h5>
+        <p class="text-gray4 text-p mb-4">
+          As the first step, upload a minimum of 5 documents with the same
+          format. We recommend 10 or more.
+        </p>
       </div>
       <div class="w-3/10 flex flex-col pl-5" v-else>
         <h5 class="text-xl mb-4">Upload Sample Document</h5>
@@ -31,21 +27,6 @@
           </div>
         </my-button>
       </div>
-      <!-- </template> -->
-      <!-- <template v-else-if="newTemplateStep === 1">
-        <div class="flex flex-col w-3/10 px-5">
-          <h5 class="text-xl mb-4">Label the document</h5>
-          <p class="text-gray-500">
-            Please label the document with the required fields so that the model
-            knows where to conduct OCR. To create a new label, click and drag
-            over the image.
-          </p>
-          <label-list />
-          <my-button type="primary" class="mt-10" @click="submitNewTemplate"
-            >Submit Template</my-button
-          >
-        </div>
-      </template> -->
     </div>
   </div>
 </template>

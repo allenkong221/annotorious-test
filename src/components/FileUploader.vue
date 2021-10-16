@@ -3,7 +3,8 @@
     <my-button
       ref="buttonRef"
       type="secondary"
-      class="text-lg"
+      class="text-p px-10"
+      outlined
       @click="inputRef.click()"
       >{{ buttonText }}</my-button
     >

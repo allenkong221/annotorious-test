@@ -14,15 +14,19 @@
       your documents.
     </p>
     <div class="flex mt-8">
-      <template-card @click="router.push('/templates/new')">
+      <template-card @click="showNewTemplateModal = true">
         <span class="text-h4 font-bold text-secondary"> + New Template </span>
       </template-card>
     </div>
+    <new-template-modal />
   </div>
 </template>
 
 <script setup lang="ts">
+import { useTemplates } from '~/composables/templates'
 const router = useRouter()
+// @ts-ignore
+const { showNewTemplateModal } = useTemplates()
 </script>
 
 <style scoped></style>

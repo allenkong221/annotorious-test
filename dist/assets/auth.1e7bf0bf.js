@@ -1,0 +1,1 @@
+import{_ as o}from"./index.cc73e5a6.js";import{r,c as s,b as t,a as c,o as a}from"./vendor.9ed98674.js";const n={},_={class:"w-full min-h-100vh flex bg-gray1"},l={class:"p-8 w-full flex-grow"};function d(i,f){const e=r("router-view");return a(),s("div",_,[t("div",l,[c(e)])])}var u=o(n,[["render",d]]);export{u as default};

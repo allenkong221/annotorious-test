@@ -2,31 +2,16 @@
   <div
     class="
       flex
-      text-gray-500
+      text-gray3
       items-center
       cursor-pointer
       group
       transition-all
-      hover:text-purple-500
+      hover:text-secondary
     "
   >
-    <div
-      class="
-        w-6
-        h-6
-        flex
-        justify-center
-        items-center
-        border-2 border-gray-500 border-opacity-50
-        mr-3
-        group-hover:border-purple-500
-        transition-all
-        text-current
-      "
-    >
-      <i-carbon-caret-left class="text-current transition" />
-    </div>
-    <span class="text-sm underline-current">Back</span>
+    <i-carbon-caret-left class="text-current transition-all duration-100" />
+    <span class="text-p uppercase transition-all duration-100">Back</span>
   </div>
 </template>
 

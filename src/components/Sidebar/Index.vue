@@ -7,10 +7,10 @@
       items-center
       py-2
       relative
-      md:py-0 md:bg-gray1
+      md:py-0
     "
   >
-    <div class="h-25 flex items-center">LOGO</div>
+    <div class="h-25 flex items-center z-1">LOGO</div>
     <div
       class="
         flex flex-col
@@ -25,6 +25,7 @@
         transition
         group
         w-full
+        z-1
       "
       :class="{
         'menu-item--active': route.path.includes(item.path),
@@ -66,6 +67,7 @@
         w-full
         rounded-br-md
         pointer-events-none
+        bg-gray1
         transition-all
         duration-250
       "
@@ -76,6 +78,7 @@
         absolute
         bottom-0
         left-0
+        bg-gray1
         border-r-2 border-t-2 border-secondary
         w-full
         rounded-tr-md
@@ -103,7 +106,6 @@ const selectedBottom = computed(() => {
   return selectedTop.value + selectedHeight.value
 })
 onMounted(() => {
-  console.log('mounting')
   updateSelectedPositions()
 })
 watch(

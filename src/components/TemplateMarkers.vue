@@ -3,15 +3,17 @@
     v-for="annotation in annotations"
     class="flex absolute bg-blue-400"
     :style="{
-      top: `calc(${(annotation.top + annotation.height) * scale}px + 0.5rem)`,
-      left: `${annotation.left * scale}px`,
+      top: `calc(${(annotation.top + annotation.height) * scale}px + 0.25rem)`,
+      left: `${(annotation.left + annotation.width) * scale}px`,
     }"
   >
     <div
       v-show="selectedAnnotationId === annotation.id"
       class="flex flex-col bg-white border-gray-500 border-1 p-6"
     >
-      <label :for="annotation.id" class="font-bold mb-1">Label</label>
+      <label :for="annotation.id" class="text-p mb-1"
+        >What would you like to call this value?</label
+      >
       <input
         :name="annotation.id"
         type="text"
@@ -25,15 +27,13 @@
         "
         v-model="currentLabel"
       />
-      <div class="flex justify-between items-center">
-        <i-mdi-trash
-          @click="deleteAnnotation"
-          class="text-red-600 cursor-pointer"
-        />
-        <my-button @click="saveAnnotation">
-          {{ annotation.new ? 'Add label' : 'Save' }}
-        </my-button>
-      </div>
+      <my-button
+        @click="saveAnnotation"
+        type="secondary"
+        :disabled="!currentLabel"
+      >
+        {{ annotation.new ? 'Add label' : 'Save' }}
+      </my-button>
     </div>
   </div>
 </template>
@@ -46,7 +46,7 @@ const { annotations, selectedAnnotationId, removeAnnotation, cancelSelection } =
 defineProps({
   scale: {
     type: Number,
-    default: 0,
+    default: 1,
   },
 })
 
@@ -54,6 +54,12 @@ const deleteAnnotation = () => {
   removeAnnotation(selectedAnnotationId.value)
 }
 
+watch(
+  () => annotations.value,
+  (val) => {
+    console.log(val)
+  }
+)
 const saveAnnotation = async () => {
   const targetAnnotation = annotations.value.find(
     (annotation) => annotation.id === selectedAnnotationId.value

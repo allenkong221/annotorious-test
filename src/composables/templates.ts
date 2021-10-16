@@ -1,16 +1,26 @@
+import { FormattedAnnotation } from '~/types/customTypes'
+
+const templateImages = ref<string[]>([])
+const templateFiles = ref<File[]>([])
+const newTemplateImage = ref()
+const newTemplateFile = ref()
+const newTemplateStep = ref(0)
+const showNewTemplateModal = ref(false)
+const selectedTemplateIndex = ref(0)
+const templateAnnotations = ref<Array<FormattedAnnotation[]>>([])
+const templateRawAnnotations = ref<any[][]>([])
 export const useTemplates = () => {
-  const templateImages = ref<string[]>([])
-  const templateFiles = ref<File[]>([])
-  const newTemplateImage = ref()
-  const newTemplateFile = ref()
-  const newTemplateStep = ref(0)
   return {
     steps: [{ name: 'Upload sample document' }, { name: 'Manage labels' }],
     templateImages,
     templateFiles,
     newTemplateStep,
+    showNewTemplateModal,
+    selectedTemplateIndex,
     newTemplateImage: newTemplateImage,
     newTemplateFile: newTemplateFile,
+    templateAnnotations,
+    templateRawAnnotations,
     setNewTemplate: (files: FileList) => {
       newTemplateFile.value = files[0]
       newTemplateImage.value = URL.createObjectURL(files[0])

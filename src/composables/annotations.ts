@@ -21,7 +21,6 @@ const translateAnnotationInfo = (value: string) => {
 const anno = ref()
 const selectedAnnotationId = ref('')
 const annotations = ref<FormattedAnnotation[]>([])
-
 export const useAnnotations = () => {
   return {
     anno,
@@ -84,6 +83,12 @@ export const useAnnotations = () => {
     },
     getCurrentAnnotations: () => {
       return annotations.value
+    },
+    getRawAnnotations: () => {
+      return anno.value.getAnnotations()
+    },
+    setRawAnnotations: (annotations: any) => {
+      anno.value.setAnnotations(annotations)
     },
   }
 }

@@ -10,7 +10,7 @@ from pydantic.types import Json
 # Use this to serve a public/index.html
 from starlette.responses import FileResponse, StreamingResponse 
 from starlette.responses import RedirectResponse
-from preprocessing import *
+# from preprocessing import *
 
 import os
 import json
@@ -19,14 +19,15 @@ import aiofiles
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
-app.mount("/dist", StaticFiles(directory="dist"), name="dist")
-templates = Jinja2Templates(directory="dist")
+app.mount("/build", StaticFiles(directory="build"), name="build")
+templates = Jinja2Templates(directory="build")
 
 origins = [
     "http://localhost.tiangolo.com",
     "https://localhost.tiangolo.com",
     "http://localhost",
     "http://localhost:8000/",
+    "http://localhost:3000/"
 ]
 
 app.add_middleware(
@@ -39,21 +40,28 @@ app.add_middleware(
 
 @app.get("/", response_class=FileResponse)
 def read_index(request: Request):
-    path = 'dist/index.html' 
+    path = 'build/index.html' 
     return FileResponse(path)
 
 @app.get("/{catchall:path}", response_class=FileResponse) 
 def read_index(request: Request):
     # check first if requested file exists
     path = request.path_params["catchall"]
-    file = 'dist/'+path
+    file = 'build/'+path
 
     if os.path.exists(file):
         return FileResponse(file)
 
     # otherwise return index files
-    index = 'dist/index.html' 
+    index = 'build/index.html' 
     return FileResponse(index)
+
+app.get('/api/')
+@app.post('/api/testingapi')
+def test_function():
+  return { "state": "New York", "city": "New York City" }
+
+
 
 @app.post('/apitest')
 def testapi():

@@ -31,11 +31,6 @@ const handleEmailLogin = async ({
   email: string
   password: string
 }) => {
-  const login = await emailLogin(email, password)
-  if (!login) {
-    toast.error('Invalid e-mail or password')
-    return
-  }
   showLoader.value = true
   setTimeout(() => {
     router.push({
