@@ -88,7 +88,11 @@ export const useAnnotations = () => {
       return anno.value.getAnnotations()
     },
     setRawAnnotations: (annotations: any) => {
+      console.log(JSON.parse(JSON.stringify(annotations)))
       anno.value.setAnnotations(annotations)
+    },
+    destroyAnnotations: () => {
+      anno.value.destroy()
     },
   }
 }

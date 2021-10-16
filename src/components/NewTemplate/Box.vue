@@ -96,9 +96,11 @@ const {
   addTemplates,
   newTemplateStep,
   selectedTemplateIndex,
+  templateRawAnnotations,
 } = useTemplates()
 
-const { initAnnotations } = useAnnotations()
+const { initAnnotations, destroyAnnotations, setRawAnnotations } =
+  useAnnotations()
 const currentScale = ref(0)
 const imgRef = ref<HTMLImageElement>()
 watch(newTemplateStep, async (newStep) => {
@@ -108,14 +110,23 @@ watch(newTemplateStep, async (newStep) => {
   }
 })
 
-const initializeAnnotations = () => {
-  initAnnotations(imgRef.value!)
+watch(selectedTemplateIndex, async (val) => {
+  await nextTick()
+  destroyAnnotations()
+  initializeAnnotations()
+  setRawAnnotations(templateRawAnnotations.value[selectedTemplateIndex.value])
+})
+
+const updateScale = () => {
   const tempImg = new Image()
   tempImg.src = templateImages.value[selectedTemplateIndex.value]
   tempImg.onload = () => {
     currentScale.value = imgRef.value?.width! / tempImg.width
-    console.log(currentScale.value)
   }
+}
+const initializeAnnotations = () => {
+  initAnnotations(imgRef.value!)
+  updateScale()
 }
 </script>
 

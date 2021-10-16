@@ -54,12 +54,6 @@ const deleteAnnotation = () => {
   removeAnnotation(selectedAnnotationId.value)
 }
 
-watch(
-  () => annotations.value,
-  (val) => {
-    console.log(val)
-  }
-)
 const saveAnnotation = async () => {
   const targetAnnotation = annotations.value.find(
     (annotation) => annotation.id === selectedAnnotationId.value

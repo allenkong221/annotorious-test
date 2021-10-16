@@ -55,15 +55,16 @@ const {
 } = useTemplates()
 const { annotations, getRawAnnotations, setRawAnnotations } = useAnnotations()
 const changeCurrentTemplate = (newIndex: number) => {
+  console.log('1')
   const oldIndex = selectedTemplateIndex.value
   const oldRawAnnotations = getRawAnnotations()
   console.log(oldRawAnnotations)
   templateRawAnnotations.value[oldIndex] = oldRawAnnotations
   templateAnnotations.value[oldIndex] = annotations.value
-  annotations.value = templateAnnotations.value[newIndex]
   selectedTemplateIndex.value = newIndex
-  console.log(templateRawAnnotations.value)
-  setRawAnnotations(templateRawAnnotations.value[newIndex])
+  annotations.value = templateAnnotations.value[newIndex]
+  // setRawAnnotations(templateRawAnnotations.value[newIndex])
+  // console.log(templateRawAnnotations.value[newIndex])
 }
 </script>
 
