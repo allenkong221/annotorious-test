@@ -7,6 +7,7 @@ import {
 } from '~/types/customTypes'
 import '@recogito/annotorious/dist/annotorious.min.css'
 import { useTemplates } from './templates'
+import { useMousePressed } from '@vueuse/core'
 
 const translateAnnotationInfo = (value: string) => {
   const cleanValue = value.substr(11)
@@ -18,16 +19,24 @@ const translateAnnotationInfo = (value: string) => {
     height: parseInt(splitValues[3]),
   }
 }
-
 const anno = ref()
 const selectedAnnotationId = ref('')
 const annotations = ref<FormattedAnnotation[]>([])
 const { selectedTemplateIndex, templateAnnotations } = useTemplates()
+const isUserEditing = ref(false)
+const { pressed } = useMousePressed()
+watch(pressed, (val) => {
+  if (!val && isUserEditing.value) {
+    isUserEditing.value = false
+  }
+})
+
 export const useAnnotations = () => {
   return {
     anno,
     selectedAnnotationId,
     annotations,
+    isUserEditing,
     initAnnotations: (imageRef: HTMLImageElement) => {
       // Creates a new annotorious instance on headless mode
       anno.value = new Annotorious({
@@ -43,6 +52,23 @@ export const useAnnotations = () => {
       )
       anno.value.on('cancelSelected', (selection: Selection) => {
         selectedAnnotationId.value = ''
+      })
+      anno.value.on('changeSelectionTarget', (val: any) => {
+        console.log(val)
+        isUserEditing.value = true
+        setTimeout(() => {
+          if (!pressed.value) {
+            isUserEditing.value = false
+            annotations.value.forEach((ann, i) => {
+              if (selectedAnnotationId.value === ann.id) {
+                annotations.value[i] = {
+                  ...annotations.value[i],
+                  ...translateAnnotationInfo(val.selector.value),
+                }
+              }
+            })
+          }
+        }, 200)
       })
       anno.value.on(
         'updateAnnotation',
@@ -87,15 +113,21 @@ export const useAnnotations = () => {
     getCurrentAnnotations: () => {
       return annotations.value
     },
+    saveCurrentAnnotation: () => {
+      anno.value.saveSelected()
+    },
     selectAnnotation: (annotationId: string) => {
-      anno.value.selectAnnotation(annotationId)
-      selectedAnnotationId.value = annotationId
+      // Adding this timeout to handle user canceling selection by clicking on the label
+      setTimeout(() => {
+        selectedAnnotationId.value = annotationId
+        anno.value.selectAnnotation(annotationId)
+      }, 20)
     },
     getRawAnnotations: () => {
       return anno.value.getAnnotations()
     },
     setRawAnnotations: (annotations: any) => {
-      console.log(JSON.parse(JSON.stringify(annotations)))
+      console.log(annotations)
       anno.value.setAnnotations(annotations)
     },
     destroyAnnotations: () => {

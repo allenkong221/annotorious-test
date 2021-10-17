@@ -3,14 +3,14 @@
     :model-value="showNewTemplateModal"
     @close="showNewTemplateModal = false"
   >
-    <div class="bg-white w-95vw h-90vh rounded-lg relative flex flex-col p-6">
+    <div class="bg-white w-95vw h-90vh rounded-lg relative flex flex-col p-12">
       <div class="flex mb-5">
         <back-button class="mr-16" />
         <my-stepper :steps="steps" :active-index="newTemplateStep" />
       </div>
       <div class="flex h-9/10 justify-between">
-        <new-template-box class="w-65/100" />
-        <div class="w-35/100 flex flex-col pl-5" v-if="!newTemplateImage">
+        <new-template-box class="w-62/100" />
+        <div class="w-38/100 flex flex-col pl-12" v-if="!newTemplateImage">
           <template v-if="newTemplateStep === 0">
             <h5 class="text-h2 font-bold mb-4 text-gray4">
               1. Upload Sample Documents
@@ -40,20 +40,27 @@
               class="text-gray4 text-p mb-4"
               v-else-if="selectedTemplateIndex !== 0"
             >
-              Great job! You've labelled your first document. For the remaining
+              {{
+                selectedTemplateIndex === templateImages.length - 1
+                  ? `Congrats! Now we're off to the verification step!`
+                  : `Great job! You've labelled your first document. For the remaining
               documents, adjust each bounding box to ensure the texts are
-              covered.
+              covered.`
+              }}
             </p>
             <new-template-label-list />
             <div class="mt-auto flex flex-col">
               <p class="text-p text-gray4 mb-2">
                 Once you have finished labeling this document, click Next.
               </p>
-              <my-button outlined @click="handleAdvanceTemplate"
-                >Next</my-button
-              >
+              <my-button outlined @click="handleAdvanceTemplate">{{
+                selectedTemplateIndex === templateImages.length - 1
+                  ? 'Submit'
+                  : 'Next'
+              }}</my-button>
             </div>
           </template>
+          <template v-else-if="newTemplateStep === 2"> </template>
         </div>
       </div>
     </div>
@@ -61,6 +68,7 @@
 </template>
 
 <script setup lang="ts">
+import { useToast } from 'vue-toastification'
 import { useAnnotations } from '~/composables/annotations'
 import { useTemplates } from '~/composables/templates'
 
@@ -74,10 +82,16 @@ const {
   templateRawAnnotations,
   selectedTemplateIndex,
   firstTemplateReady,
+  templateFiles,
 } = useTemplates()
 
 const { getRawAnnotations, annotations } = useAnnotations()
+const toast = useToast()
 const startLabeling = () => {
+  if (templateImages.value.length < 5) {
+    toast.warning('Please upload at least 5 samples before proceeding')
+    return
+  }
   newTemplateStep.value = 1
   const totalTemplates = templateImages.value.length
   templateAnnotations.value = []
@@ -89,10 +103,26 @@ const startLabeling = () => {
 }
 
 const handleAdvanceTemplate = () => {
-  if (selectedTemplateIndex.value === 0) {
+  if (selectedTemplateIndex.value === 0 && !firstTemplateReady.value) {
     firstTemplateReady.value = true
+    for (let i = 0; i < templateAnnotations.value.length; i++) {
+      templateAnnotations.value[i] = annotations.value
+      templateRawAnnotations.value[i] = getRawAnnotations()
+    }
+  }
+  if (selectedTemplateIndex.value === templateImages.value.length - 1) {
+    submitTemplate()
+    // TODO: Uncomment below after integrating with BE
+    // newTemplateStep.value = 2
+    return
   }
   changeCurrentTemplate(selectedTemplateIndex.value + 1)
+}
+
+const submitTemplate = () => {
+  // TODO: Submit data to the BE
+  console.log(templateAnnotations.value)
+  console.log(templateFiles.value)
 }
 
 const changeCurrentTemplate = (newIndex: number) => {
@@ -105,4 +135,8 @@ const changeCurrentTemplate = (newIndex: number) => {
 }
 </script>
 
-<style scoped></style>
+<style>
+.a9s-annotation.hovered .a9s-outer {
+  fill: #f9af3f30;
+}
+</style>

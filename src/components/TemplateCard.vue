@@ -5,8 +5,8 @@
       template-card
       border-dashed border-2 border-secondary
       rounded-lg
-      h-64
-      w-64
+      h-100
+      w-100
       flex
       justify-center
       items-center

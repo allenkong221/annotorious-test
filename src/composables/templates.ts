@@ -12,7 +12,11 @@ const templateRawAnnotations = ref<any[][]>([])
 const firstTemplateReady = ref(false)
 export const useTemplates = () => {
   return {
-    steps: [{ name: 'Upload sample document' }, { name: 'Manage labels' }],
+    steps: [
+      { name: 'Upload Sample Documents' },
+      { name: 'Label the documents' },
+      { name: 'Verify Retrieved Values' },
+    ],
     templateImages,
     templateFiles,
     firstTemplateReady,

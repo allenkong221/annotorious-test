@@ -1,9 +1,12 @@
 <template>
-  <div class="flex flex-col overflow-y-auto p-4 overflow-x-hidden">
+  <div class="flex flex-col p-4 overflow-x-hidden">
     <div
       v-for="(image, i) in templateImages"
       class="relative w-full border-1 border-secondary my-3 p-1"
-      :class="{ ['border-opacity-40']: i !== 0 && !firstTemplateReady }"
+      :class="{
+        ['border-opacity-40']: i !== 0 && !firstTemplateReady,
+        ['!border-primary']: selectedTemplateIndex === i,
+      }"
       @click="changeCurrentTemplate(i)"
     >
       <img :src="image" ref="templateImgRef" class="object-cover w-full" />
@@ -42,7 +45,6 @@
           hover:bg-opacity-15
         "
       ></div>
-      <template-markers :scale="1" />
     </div>
   </div>
 </template>

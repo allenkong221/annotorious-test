@@ -15,6 +15,8 @@
         ['border-gray2']: selectedAnnotationId !== annotation.id,
         ['border-primary']: selectedAnnotationId === annotation.id,
       }"
+      @mouseenter="hoverAnnotation(annotation.id)"
+      @mouseleave="unhoverAnnotation(annotation.id)"
       @click="selectAnnotation(annotation.id)"
     >
       <p>{{ annotation.name }}</p>
@@ -32,6 +34,16 @@ import { useTemplates } from '~/composables/templates'
 const { templateAnnotations, selectedTemplateIndex } = useTemplates()
 const { removeAnnotation, selectedAnnotationId, selectAnnotation } =
   useAnnotations()
+const hoverAnnotation = (annotationId: string) => {
+  document
+    .querySelector(`[data-id="${annotationId}"]`)
+    ?.classList.add('hovered')
+}
+const unhoverAnnotation = (annotationId: string) => {
+  document
+    .querySelector(`[data-id="${annotationId}"]`)
+    ?.classList.remove('hovered')
+}
 </script>
 
 <style scoped></style>

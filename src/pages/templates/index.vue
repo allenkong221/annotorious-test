@@ -15,7 +15,50 @@
     </p>
     <div class="flex mt-8">
       <template-card @click="showNewTemplateModal = true">
-        <span class="text-h4 font-bold text-secondary"> + New Template </span>
+        <div
+          class="
+            flex flex-col
+            justify-center
+            items-center
+            w-full
+            h-full
+            group
+            hover:bg-secondary
+            transition
+          "
+        >
+          <div class="flex items-center mb-2">
+            <i-radix-icons-cursor-arrow
+              class="
+                text-secondary text-p
+                mr-1
+                group-hover:text-white
+                transition
+              "
+            />
+            <span
+              class="
+                text-p text-gray3
+                uppercase
+                group-hover:text-white
+                transition
+              "
+              >Click Here</span
+            >
+          </div>
+          <span class="text-h3 font-semibold text-center">
+            <span class="text-error group-hover:text-white transition"
+              >Create
+            </span>
+            <span class="text-black group-hover:text-white transition">a </span>
+            <span class="text-primary group-hover:text-white transition"
+              >new
+            </span>
+            <span class="text-secondary group-hover:text-white transition"
+              >template</span
+            >
+          </span>
+        </div>
       </template-card>
     </div>
     <new-template-modal />
@@ -24,7 +67,6 @@
 
 <script setup lang="ts">
 import { useTemplates } from '~/composables/templates'
-const router = useRouter()
 // @ts-ignore
 const { showNewTemplateModal } = useTemplates()
 </script>

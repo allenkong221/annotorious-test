@@ -22,6 +22,7 @@ declare module 'vue' {
     IMdiPlus: typeof import('~icons/mdi/plus')['default']
     IMdiTrash: typeof import('~icons/mdi/trash')['default']
     IMdiUser: typeof import('~icons/mdi/user')['default']
+    IRadixIconsCursorArrow: typeof import('~icons/radix-icons/cursor-arrow')['default']
     LabelList: typeof import('C:/Users/Administrator/Documents/Projects/Personal/annotorious-test/src/components/LabelList.vue')['default']
     LoginCard: typeof import('C:/Users/Administrator/Documents/Projects/Personal/annotorious-test/src/components/LoginCard.vue')['default']
     LoginInput: typeof import('C:/Users/Administrator/Documents/Projects/Personal/annotorious-test/src/components/LoginInput.vue')['default']

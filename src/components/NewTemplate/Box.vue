@@ -6,7 +6,7 @@
       relative
       bg-gray1
       p-6
-      overflow-y-scroll
+      overflow-y-auto
     "
   >
     <template v-if="newTemplateStep === 0">
@@ -82,7 +82,7 @@
             :mouse-info="mouseInElement!"
             :img-height="realImgHeight"
           />
-          <template-markers :scale="currentScale" />
+          <template-markers :scale="currentScale" :img-width="realImgWidth" />
         </div>
       </div>
     </template>
@@ -109,6 +109,7 @@ const { initAnnotations, destroyAnnotations, setRawAnnotations } =
 const imageWrapper = ref()
 const currentScale = ref(0)
 const realImgHeight = ref(0)
+const realImgWidth = ref(0)
 const imgRef = ref<HTMLImageElement>()
 watch(newTemplateStep, async (newStep) => {
   if (newStep === 1) {
@@ -131,6 +132,7 @@ const updateScale = () => {
   tempImg.onload = () => {
     currentScale.value = imgRef.value?.width! / tempImg.width
     realImgHeight.value = imgRef.value?.height!
+    realImgWidth.value = imgRef.value?.offsetWidth!
   }
 }
 const initializeAnnotations = () => {

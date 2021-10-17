@@ -4,14 +4,15 @@
     class="flex absolute bg-blue-400"
     :style="{
       top: `calc(${(annotation.top + annotation.height) * scale}px + 0.25rem)`,
-      left: `${(annotation.left + annotation.width) * scale}px`,
+      left: `${getAnnotationLeft(annotation)}px`,
     }"
   >
     <div
-      v-show="selectedAnnotationId === annotation.id"
+      v-show="selectedAnnotationId === annotation.id && !isUserEditing"
       class="flex flex-col bg-white border-gray-500 border-1 p-6"
+      v-click-away="() => closeAnnotations(annotation.id)"
     >
-      <label :for="annotation.id" class="text-p mb-1"
+      <label :for="annotation.id" class="text-p mb-1 z-5"
         >What would you like to call this value?</label
       >
       <input
@@ -42,19 +43,48 @@
 <script setup lang="ts">
 import { useAnnotations } from '~/composables/annotations'
 import { useTemplates } from '~/composables/templates'
-const { annotations, selectedAnnotationId, removeAnnotation, cancelSelection } =
-  useAnnotations()
+import { FormattedAnnotation } from '~/types/customTypes'
+// import { directive as vClickAway } from 'vue3-click-away'
+import { directive as vClickAway } from 'vue3-click-away'
+const {
+  annotations,
+  selectedAnnotationId,
+  removeAnnotation,
+  cancelSelection,
+  isUserEditing,
+  saveCurrentAnnotation,
+} = useAnnotations()
+
 const { templateAnnotations, selectedTemplateIndex } = useTemplates()
-defineProps({
+const props = defineProps({
   scale: {
     type: Number,
     default: 1,
   },
+  imgWidth: {
+    type: Number,
+    default: 0,
+  },
 })
 
-// const deleteAnnotation = () => {
-//   removeAnnotation(selectedAnnotationId.value)
-// }
+const closeAnnotations = (annotationId: string) => {
+  // console.log('closing')
+  // if (selectedAnnotationId.value === annotationId) {
+  //   selectedAnnotationId.value = ''
+  //   cancelSelection()
+  // }
+}
+
+const getAnnotationLeft = (annotation: FormattedAnnotation) => {
+  if (
+    (annotation.left + annotation.width) * props.scale + 276 <
+    props.imgWidth
+  ) {
+    return (annotation.left + annotation.width) * props.scale
+  } else {
+    return annotation.left * props.scale - 276
+  }
+}
 
 const customLabelInput = (e: Event) => {
   const target = e.target as HTMLInputElement
@@ -66,6 +96,7 @@ const saveAnnotation = async () => {
     (annotation) => annotation.id === selectedAnnotationId.value
   )
   if (targetAnnotation) {
+    saveCurrentAnnotation()
     targetAnnotation.name = currentLabel.value
     targetAnnotation.new = false
     selectedAnnotationId.value = ''

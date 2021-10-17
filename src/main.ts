@@ -14,8 +14,8 @@ import 'virtual:windi-devtools'
 
 // @ts-ignore: globEager is a Vite-only feature
 const plugins = import.meta.globEager('./plugins/*.js')
-export const app = createApp(App)
 
+export const app = createApp(App)
 const options: PluginOptions = {
   timeout: 4000,
 }

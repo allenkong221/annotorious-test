@@ -1,7 +1,7 @@
 <template>
   <div class="flex">
-    <div v-for="(step, i) in steps" class="text-gray-500 mr-4">
-      <span :class="{ 'text-purple-500': i === activeIndex }"
+    <div v-for="(step, i) in steps" class="text-gray3 mr-8">
+      <span :class="{ 'text-secondary': i === activeIndex }"
         >{{ i + 1 }}. {{ step.name }}</span
       >
     </div>
