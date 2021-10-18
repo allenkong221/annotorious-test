@@ -106,7 +106,9 @@ const handleAdvanceTemplate = () => {
   if (selectedTemplateIndex.value === 0 && !firstTemplateReady.value) {
     firstTemplateReady.value = true
     for (let i = 0; i < templateAnnotations.value.length; i++) {
-      templateAnnotations.value[i] = annotations.value
+      templateAnnotations.value[i] = JSON.parse(
+        JSON.stringify(annotations.value)
+      )
       templateRawAnnotations.value[i] = getRawAnnotations()
     }
   }
@@ -129,9 +131,13 @@ const changeCurrentTemplate = (newIndex: number) => {
   const oldIndex = selectedTemplateIndex.value
   const oldRawAnnotations = getRawAnnotations()
   templateRawAnnotations.value[oldIndex] = oldRawAnnotations
-  templateAnnotations.value[oldIndex] = annotations.value
+  templateAnnotations.value[oldIndex] = JSON.parse(
+    JSON.stringify(annotations.value)
+  )
   selectedTemplateIndex.value = newIndex
-  annotations.value = templateAnnotations.value[newIndex]
+  annotations.value = JSON.parse(
+    JSON.stringify(templateAnnotations.value[newIndex])
+  )
 }
 </script>
 

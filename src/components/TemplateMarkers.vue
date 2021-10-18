@@ -101,10 +101,15 @@ const saveAnnotation = async () => {
     targetAnnotation.new = false
     selectedAnnotationId.value = ''
     cancelSelection()
+    console.log(JSON.parse(JSON.stringify(templateAnnotations.value)))
     templateAnnotations.value[selectedTemplateIndex.value] = annotations.value
+    console.log(JSON.parse(JSON.stringify(templateAnnotations.value)))
   }
 }
 
+watch(annotations, (val) => {
+  console.log(val)
+})
 const currentLabel = ref('')
 watch(
   () => selectedAnnotationId.value,
