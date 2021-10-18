@@ -1,11 +1,7 @@
-from IPython.display import Image
-import pytesseract
 import cv2
-pytesseract.pytesseract.tesseract_cmd = 'C:/Program Files/Tesseract-OCR/tesseract.exe'
-
 import os
-from google.cloud import vision
 import io
+from google.cloud import vision
 
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "keyFile.json"
 
