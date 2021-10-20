@@ -106,3 +106,7 @@ async def create_template_multidata(files: List[UploadFile] = File(...), annotat
 @app.post("/api/")
 async def api():
     return {}
+
+@app.get("api/get_filenames")
+async def get_filenames():
+    return {"filenames": os.listdir("templates/")}
