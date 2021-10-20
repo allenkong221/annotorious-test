@@ -20,6 +20,8 @@ meta:
 // import { googleLogin } from '~/composables/firebase/auth'
 import { useToast } from 'vue-toastification'
 import { useAuth } from '~/composables/firebase/auth'
+// import * as test from '~/assets/test.csv'
+// console.log(test)
 // const clickOutside = resolveDirective('')
 const toast = useToast()
 const showLoader = ref(false)

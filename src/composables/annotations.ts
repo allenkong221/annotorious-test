@@ -127,7 +127,6 @@ export const useAnnotations = () => {
       return anno.value.getAnnotations()
     },
     setRawAnnotations: (annotations: any) => {
-      console.log(annotations)
       anno.value.setAnnotations(annotations)
     },
     destroyAnnotations: () => {

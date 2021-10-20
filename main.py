@@ -81,18 +81,18 @@ async def data(file: UploadFile = File(...), annotations: str = Body(...)):
     return {"message": results}
 
 @app.post("/api/create_template_multidata")
-async def create_template_multidata(files: List[UploadFile] = File(...), annotations: List[str] = Body(...)):
+async def create_template_multidata(files: List[UploadFile] = File(...), annotations: str = Body(...)):
     results = []
-
+    str_annotations = json.loads(annotations)
     for i in range(len(files)):
         extract = {}
         contents = await files[i].read()
         with open('data/test.jpg', 'wb') as f:
             f.write(contents)
+        i_annotation = str_annotations[i]    
 
-        str_annotations = json.loads(str(annotations[i]))[0]
-
-        for item in str_annotations:
+        
+        for item in i_annotation:
             img = crop_image(item, 'data/test.jpg')
             extract[item['name']] = extract_text(img)
         

@@ -60,7 +60,22 @@
               }}</my-button>
             </div>
           </template>
-          <template v-else-if="newTemplateStep === 2"> </template>
+          <template v-else-if="newTemplateStep === 2">
+            <h5 class="text-h2 font-bold mb-4 text-gray4">
+              3. Verify Retrieved Values
+            </h5>
+            <p class="text-gray4 text-p mb-2">
+              For each label, please verify if the values are correct. This will
+              improve the accuracy of the model and save you more time in the
+              future.
+            </p>
+            <p class="text-gray4 text-p mb-4">
+              There are {{ mockLabelCount }} labels x
+              {{ mockDocumentCount }} documents =
+              {{ mockLabelCount * mockDocumentCount }} values to check in total.
+            </p>
+            <simple-card />
+          </template>
         </div>
       </div>
     </div>
@@ -71,7 +86,11 @@
 import { useToast } from 'vue-toastification'
 import { useAnnotations } from '~/composables/annotations'
 import { useTemplates } from '~/composables/templates'
+import axios from 'axios'
+import to from 'await-to-js'
 
+const mockLabelCount = ref(6)
+const mockDocumentCount = ref(10)
 const {
   showNewTemplateModal,
   steps,
@@ -113,18 +132,32 @@ const handleAdvanceTemplate = () => {
     }
   }
   if (selectedTemplateIndex.value === templateImages.value.length - 1) {
-    submitTemplate()
     // TODO: Uncomment below after integrating with BE
-    // newTemplateStep.value = 2
+    // await submitTemplate()
+    newTemplateStep.value = 2
     return
   }
   changeCurrentTemplate(selectedTemplateIndex.value + 1)
 }
 
-const submitTemplate = () => {
+const submitTemplate = async () => {
   // TODO: Submit data to the BE
   console.log(templateAnnotations.value)
   console.log(templateFiles.value)
+  const payload = new FormData()
+  for (const file of templateFiles.value) {
+    payload.append('files', file)
+  }
+  payload.append('annotations', JSON.stringify(templateAnnotations.value))
+
+  const [err, res] = await to(
+    axios.post('/api/create_template_multidata', payload)
+  )
+  if (err) {
+    console.error(err)
+    return
+  }
+  console.log(res)
 }
 
 const changeCurrentTemplate = (newIndex: number) => {
