@@ -6,6 +6,7 @@ declare module 'vue' {
   export interface GlobalComponents {
     AnnotationPanel: typeof import('C:/Users/Administrator/Documents/Projects/Personal/annotorious-test/src/components/AnnotationPanel.vue')['default']
     BackButton: typeof import('./src/components/BackButton.vue')['default']
+    ConfirmationModal: typeof import('./src/components/ConfirmationModal.vue')['default']
     ElAside: typeof import('element-plus/es')['ElAside']
     ElInput: typeof import('element-plus/es')['ElInput']
     FileUploader: typeof import('./src/components/FileUploader.vue')['default']
@@ -37,6 +38,7 @@ declare module 'vue' {
     NewTemplateLabelList: typeof import('./src/components/NewTemplate/LabelList.vue')['default']
     NewTemplateModal: typeof import('./src/components/NewTemplate/Modal.vue')['default']
     NewTemplateMouseCross: typeof import('./src/components/NewTemplate/MouseCross.vue')['default']
+    NewTemplateNumbers: typeof import('./src/components/NewTemplate/Numbers.vue')['default']
     SelectionPanel: typeof import('C:/Users/Administrator/Documents/Projects/Personal/annotorious-test/src/components/SelectionPanel.vue')['default']
     Sidebar: typeof import('./src/components/Sidebar/Index.vue')['default']
     SimpleCard: typeof import('./src/components/SimpleCard.vue')['default']

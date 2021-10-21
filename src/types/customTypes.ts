@@ -35,8 +35,13 @@ export interface ProcessedAnnotation {
   left: number
   width: number
   height: number
+  ocrValue: any
+  fileIndex: number
 }
 
+export interface templateCreationResponse {
+  message:
+}
 export interface AnnotationSelection {
   body: Array<any>
   target: {

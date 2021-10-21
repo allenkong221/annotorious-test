@@ -104,7 +104,12 @@ const {
   templateFiles,
 } = useTemplates()
 
-const { getRawAnnotations, annotations } = useAnnotations()
+const {
+  getRawAnnotations,
+  annotations,
+  toggleAnnotations,
+  processedAnnotations,
+} = useAnnotations()
 const toast = useToast()
 const startLabeling = () => {
   if (templateImages.value.length < 5) {
@@ -121,7 +126,7 @@ const startLabeling = () => {
   }
 }
 
-const handleAdvanceTemplate = () => {
+const handleAdvanceTemplate = async () => {
   if (selectedTemplateIndex.value === 0 && !firstTemplateReady.value) {
     firstTemplateReady.value = true
     for (let i = 0; i < templateAnnotations.value.length; i++) {
@@ -133,7 +138,7 @@ const handleAdvanceTemplate = () => {
   }
   if (selectedTemplateIndex.value === templateImages.value.length - 1) {
     // TODO: Uncomment below after integrating with BE
-    // await submitTemplate()
+    await submitTemplate()
     newTemplateStep.value = 2
     return
   }
@@ -141,23 +146,66 @@ const handleAdvanceTemplate = () => {
 }
 
 const submitTemplate = async () => {
-  // TODO: Submit data to the BE
-  console.log(templateAnnotations.value)
-  console.log(templateFiles.value)
   const payload = new FormData()
   for (const file of templateFiles.value) {
     payload.append('files', file)
   }
   payload.append('annotations', JSON.stringify(templateAnnotations.value))
 
-  const [err, res] = await to(
-    axios.post('/api/create_template_multidata', payload)
-  )
-  if (err) {
-    console.error(err)
-    return
+  // const [err, res] = await to(
+  //   axios.post('/api/create_template_multidata', payload)
+  // )
+  // if (err) {
+  //   console.error(err)
+  //   return
+  // }
+  const res: any = {
+    message: [
+      {
+        price: '$ 23.21',
+        cycle: '1/20',
+      },
+      {
+        price: '$ 23.21',
+        cycle: '1/20',
+      },
+      {
+        price: '$ 23.21',
+        cycle: '1/20',
+      },
+      {
+        price: '$ 23.21',
+        cycle: '1/20',
+      },
+      {
+        price: '$ 23.21',
+        cycle: '1/20',
+      },
+      {
+        price: '$ 23.21',
+        cycle: '1/20',
+      },
+    ],
   }
-  console.log(res)
+  templateFiles.value.forEach((templateFile, i) => {
+    templateAnnotations.value[i].forEach((annotation, j) => {
+      const ocrValues = res.message[i]
+      const formattedAnnotation = {
+        fileIndex: i,
+        name: annotation.name,
+        id: annotation.id,
+        top: annotation.top,
+        left: annotation.left,
+        width: annotation.width,
+        height: annotation.height,
+        ocrValue: ocrValues[annotation.name],
+      }
+      processedAnnotations.value.push(formattedAnnotation)
+    })
+  })
+  console.log(processedAnnotations.value)
+  toggleAnnotations()
+  selectedTemplateIndex.value = 0
 }
 
 const changeCurrentTemplate = (newIndex: number) => {
@@ -176,6 +224,21 @@ const changeCurrentTemplate = (newIndex: number) => {
 
 <style>
 .a9s-annotation.hovered .a9s-outer {
-  fill: #f9af3f30;
+  fill: #f9af3f30 !important;
+  stroke: #675bf5 !important;
+  stroke-width: 1px !important;
+}
+.a9s-annotation.selected .a9s-outer {
+  fill: none !important;
+}
+.a9s-annotation.selected .a9s-inner {
+  stroke: #675bf5 !important;
+}
+.a9s-inner {
+  stroke: #675bf5 !important;
+}
+.a9s-outer {
+  stroke-width: 0px !important;
+  fill: #675bf540 !important;
 }
 </style>

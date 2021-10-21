@@ -4,6 +4,7 @@ import {
   Annotation,
   AnnotationSelection,
   FormattedAnnotation,
+  ProcessedAnnotation,
 } from '~/types/customTypes'
 import '@recogito/annotorious/dist/annotorious.min.css'
 import { useTemplates } from './templates'
@@ -25,6 +26,7 @@ const annotations = ref<FormattedAnnotation[]>([])
 const { selectedTemplateIndex, templateAnnotations } = useTemplates()
 const isUserEditing = ref(false)
 const { pressed } = useMousePressed()
+const processedAnnotations = ref<ProcessedAnnotation[]>([])
 watch(pressed, (val) => {
   if (!val && isUserEditing.value) {
     isUserEditing.value = false
@@ -33,6 +35,7 @@ watch(pressed, (val) => {
 
 export const useAnnotations = () => {
   return {
+    processedAnnotations,
     anno,
     selectedAnnotationId,
     annotations,
@@ -131,6 +134,10 @@ export const useAnnotations = () => {
     },
     destroyAnnotations: () => {
       anno.value.destroy()
+    },
+    toggleAnnotations: () => {
+      console.log('toggling annotations')
+      anno.value.disableSelect = !anno.value.disableSelect
     },
   }
 }

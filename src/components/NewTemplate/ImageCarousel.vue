@@ -11,25 +11,6 @@
     >
       <img :src="image" ref="templateImgRef" class="object-cover w-full" />
       <div
-        class="
-          absolute
-          top-0
-          right-0
-          text-white
-          bg-error
-          h-5
-          w-5
-          rounded-full
-          transform
-          translate-x-1/2
-          -translate-y-1/2
-          cursor-pointer
-        "
-        @click.stop="removeTemplate(i)"
-      >
-        <i-mdi-close />
-      </div>
-      <div
         :class="{
           ['bg-gray2 bg-opacity-20']: i !== 0 && !firstTemplateReady,
           'cursor-pointer': i === 0 || firstTemplateReady,
@@ -53,7 +34,6 @@
 import { useAnnotations } from '~/composables/annotations'
 import { useTemplates } from '~/composables/templates'
 const {
-  removeTemplate,
   templateImages,
   selectedTemplateIndex,
   templateAnnotations,

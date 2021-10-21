@@ -9,10 +9,10 @@
   >
     <div
       v-show="selectedAnnotationId === annotation.id && !isUserEditing"
-      class="flex flex-col bg-white border-gray-500 border-1 p-6"
+      class="flex flex-col bg-white border-secondary border-2 p-6 rounded-md"
       v-click-away="() => closeAnnotations(annotation.id)"
     >
-      <label :for="annotation.id" class="text-p mb-1 z-5"
+      <label :for="annotation.id" class="text-p mb-2 z-5"
         >What would you like to call this value?</label
       >
       <input
@@ -107,9 +107,6 @@ const saveAnnotation = async () => {
   }
 }
 
-watch(annotations, (val) => {
-  console.log(val)
-})
 const currentLabel = ref('')
 watch(
   () => selectedAnnotationId.value,

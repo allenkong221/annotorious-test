@@ -82,7 +82,24 @@
             :mouse-info="mouseInElement!"
             :img-height="realImgHeight"
           />
+          <new-template-numbers
+            :scale="currentScale"
+            :img-width="realImgWidth"
+          />
           <template-markers :scale="currentScale" :img-width="realImgWidth" />
+        </div>
+      </div>
+    </template>
+    <template v-else-if="newTemplateStep === 2">
+      <div class="flex h-full">
+        <new-template-image-carousel class="w-30 mr-5" />
+        <div class="flex-1 h-full relative" ref="imageWrapper">
+          <img ref="imgRef" :src="templateImages[selectedTemplateIndex]" />
+          <!-- <new-template-mouse-cross
+            :mouse-info="mouseInElement!"
+            :img-height="realImgHeight"
+          /> -->
+          <!-- <template-markers :scale="currentScale" :img-width="realImgWidth" /> -->
         </div>
       </div>
     </template>
@@ -119,11 +136,14 @@ watch(newTemplateStep, async (newStep) => {
 })
 const mouseInElement = ref<UseMouseInElementReturn>()
 
+// This resets the annotorious instance everytime the user changes the sample image, if the user is on the sample drawing step.
 watch(selectedTemplateIndex, async (val) => {
-  await nextTick()
-  destroyAnnotations()
-  initializeAnnotations()
-  setRawAnnotations(templateRawAnnotations.value[selectedTemplateIndex.value])
+  if (newTemplateStep.value === 1) {
+    await nextTick()
+    destroyAnnotations()
+    initializeAnnotations()
+    setRawAnnotations(templateRawAnnotations.value[selectedTemplateIndex.value])
+  }
 })
 
 const updateScale = () => {
