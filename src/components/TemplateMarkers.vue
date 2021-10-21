@@ -55,7 +55,8 @@ const {
   saveCurrentAnnotation,
 } = useAnnotations()
 
-const { templateAnnotations, selectedTemplateIndex } = useTemplates()
+const { templateAnnotations, selectedTemplateIndex, newTemplateStep } =
+  useTemplates()
 const props = defineProps({
   scale: {
     type: Number,
@@ -95,15 +96,24 @@ const saveAnnotation = async () => {
   const targetAnnotation = annotations.value.find(
     (annotation) => annotation.id === selectedAnnotationId.value
   )
+  const targetAnnotationIndex = annotations.value.findIndex(
+    (annotation) => annotation.id === selectedAnnotationId.value
+  )
   if (targetAnnotation) {
     saveCurrentAnnotation()
-    targetAnnotation.name = currentLabel.value
+
     targetAnnotation.new = false
     selectedAnnotationId.value = ''
     cancelSelection()
-    console.log(JSON.parse(JSON.stringify(templateAnnotations.value)))
     templateAnnotations.value[selectedTemplateIndex.value] = annotations.value
-    console.log(JSON.parse(JSON.stringify(templateAnnotations.value)))
+    if (newTemplateStep.value === 0) {
+      targetAnnotation.name = currentLabel.value
+    } else {
+      for (let i = 0; i < templateAnnotations.value.length; i++) {
+        templateAnnotations.value[i][targetAnnotationIndex].name =
+          currentLabel.value
+      }
+    }
   }
 }
 
