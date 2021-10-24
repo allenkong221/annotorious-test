@@ -17,6 +17,7 @@ import json
 import aiofiles
 import random
 import string
+import csv
 
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -104,10 +105,13 @@ async def create_template_multidata(files: List[UploadFile] = File(...), annotat
 
     #create template and store in /templates
     letters = string.ascii_letters
-    rand = ''.join(random.choice(letters) for i in range(10))
-    print(rand)
+    csv_name = ''.join(random.choice(letters) for i in range(10))
 
-    #json/str_annotations to csv here
+    csv_file = open(str('templates/' + csv_name), 'w+', newline='')
+    with csv_file:
+        write = csv.writer(csv_file)
+        write.writerow(annotations)
+
 
     return {"message": results}
 
