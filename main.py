@@ -18,6 +18,7 @@ import aiofiles
 import random
 import string
 import csv
+import pandas as pd
 
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -105,19 +106,18 @@ async def create_template_multidata(files: List[UploadFile] = File(...), annotat
 
     #create template and store in /templates
     letters = string.ascii_letters
-    csv_name = ''.join(random.choice(letters) for i in range(10))
+    f_name = ''.join(random.choice(letters) for i in range(10))
 
-    csv_file = open(str('templates/' + csv_name), 'w+', newline='')
-    with csv_file:
-        write = csv.writer(csv_file)
-        write.writerow(annotations)
+    df = pd.DataFrame.from_dict(eval(annotations))
+    print(df)
+    df.to_excel('templates/' + f_name)
 
 
     return {"message": results}
 
 
-@app.post("/api/")
-async def api():
+@app.post("/api/read_template_and_extract")
+async def read_and_extract():
     return {}
 
 @app.get("api/get_filenames")
