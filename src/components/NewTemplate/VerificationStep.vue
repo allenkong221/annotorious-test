@@ -95,7 +95,7 @@
           :placeholder="tempValue"
         />
         <my-button
-          @click="advancedRejectAnnotation"
+          @click="correctAnnotation"
           type="secondary"
           class="w-1/2 mt-4 mx-auto"
           >Submit</my-button
@@ -125,8 +125,10 @@ import { useAnnotations } from '~/composables/annotations'
 import { useTemplates } from '~/composables/templates'
 import axios from 'axios'
 import { to } from 'await-to-js'
+import { useLoader } from '~/composables/loader'
+import { useToast } from 'vue-toastification'
 
-const { templateImages, templateFiles } = useTemplates()
+const { templateImages, templateFiles, showNewTemplateModal } = useTemplates()
 const { processedAnnotations } = useAnnotations()
 const currentIndex = ref(0)
 const tempValue = ref('')
@@ -166,7 +168,8 @@ const rejectionDetails = ref([
     value: false,
   },
 ])
-
+const { showLoader } = useLoader()
+const toast = useToast()
 const emits = defineEmits(['submit'])
 watch(
   currentIndex,
@@ -193,20 +196,24 @@ const submit = async () => {
   const formData = new FormData()
   formData.append('file', templateFiles.value[0])
   formData.append('results', JSON.stringify(processedAnnotations.value))
+  showLoader.value = true
   const [err, res] = await to(axios.post('/api/verification', formData))
+  showLoader.value = false
   if (err) {
     console.error(err)
     return
   }
   console.log(res)
+  toast.success('Template created successfully!')
+  showNewTemplateModal.value = false
 }
-const simpleRejectAnnotation = () => {
-  processedAnnotations.value[currentIndex.value].finalValue = tempValue.value
-  processedAnnotations.value[currentIndex.value].resultApproved = false
-  if (currentIndex.value + 1 !== processedAnnotations.value.length)
-    currentIndex.value++
-  else submit()
-}
+// const simpleRejectAnnotation = () => {
+//   processedAnnotations.value[currentIndex.value].finalValue = tempValue.value
+//   processedAnnotations.value[currentIndex.value].resultApproved = false
+//   if (currentIndex.value + 1 !== processedAnnotations.value.length)
+//     currentIndex.value++
+//   else submit()
+// }
 const advancedRejectAnnotation = () => {
   processedAnnotations.value[currentIndex.value].finalValue = tempValue.value
   processedAnnotations.value[currentIndex.value].resultApproved = false

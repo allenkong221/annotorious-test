@@ -17,7 +17,8 @@
                 1. Upload Sample Documents
               </h5>
               <p class="text-gray4 text-p mb-4">
-                As the first step, upload a minimum of 5 documents with the same
+                <!-- FIXME change to 5 -->
+                As the first step, upload a minimum of 3 documents with the same
                 format. We recommend 10 or more.
               </p>
               <span class="text-small text-secondary"
@@ -117,6 +118,27 @@
         </div>
       </transition>
     </div>
+    <confirmation-modal
+      :model-value="showDrawingModal"
+      @close="showDrawingModal = false"
+    >
+      <div
+        class="bg-white rounded-lg relative flex flex-col p-6 justify-center"
+      >
+        <p class="text-center text-h4 text-black">
+          Draw a box around each text area that you want to capture
+        </p>
+        <img src="/drawing.gif" class="w-4/5 my-8 mx-auto" />
+        <div class="flex justify-between">
+          <my-button
+            type="secondary"
+            class="w-47/100 mx-auto"
+            @click="showDrawingModal = false"
+            >Ok!</my-button
+          >
+        </div>
+      </div>
+    </confirmation-modal>
   </my-modal>
 </template>
 
@@ -131,6 +153,7 @@ import { useLoader } from '~/composables/loader'
 
 const mockLabelCount = ref(6)
 const mockDocumentCount = ref(10)
+const showDrawingModal = ref(false)
 const { showLoader } = useLoader()
 const {
   showNewTemplateModal,
@@ -155,13 +178,15 @@ const {
 } = useAnnotations()
 const toast = useToast()
 const startLabeling = () => {
-  if (templateImages.value.length < 5) {
-    toast.warning('Please upload at least 5 samples before proceeding')
+  // FIXME CHANGE TO 5 LATER
+  if (templateImages.value.length < 3) {
+    toast.warning('Please upload at least 3 samples before proceeding')
     return
   } else if (newTemplateName.value === '') {
     toast.warning('Please set a name for your template')
     return
   }
+  showDrawingModal.value = true
   newTemplateStep.value = 1
   const totalTemplates = templateImages.value.length
   templateAnnotations.value = []
@@ -185,6 +210,12 @@ const handleAdvanceTemplate = async () => {
     }
   }
   if (selectedTemplateIndex.value === templateImages.value.length - 1) {
+    const oldRawAnnotations = getRawAnnotations()
+    templateRawAnnotations.value[selectedTemplateIndex.value] =
+      oldRawAnnotations
+    templateAnnotations.value[selectedTemplateIndex.value] = JSON.parse(
+      JSON.stringify(annotations.value)
+    )
     await submitTemplate()
     newTemplateStep.value = 2
     return
@@ -199,48 +230,47 @@ const submitTemplate = async () => {
   }
   payload.append('annotations', JSON.stringify(templateAnnotations.value))
   payload.append('name', newTemplateName.value)
-  console.log(payload)
   showLoader.value = true
-  // const [err, res] = await to(
-  //   axios.post('/api/create_template_multidata', payload)
-  // )
-  // showLoader.value = false
-  // if (err) {
-  //   console.error(err)
-  //   return
-  // }
-  // console.log(res)
-  const res: any = {
-    data: {
-      message: [
-        {
-          date: '07/15/2020',
-          price: '$ 23.21',
-        },
-        {
-          date: '07/15/2020',
-          price: '$ 23.21',
-        },
-        {
-          date: '07/15/2020',
-          price: '$ 23.21',
-        },
-        {
-          date: '07/15/2020',
-          price: '$ 23.21',
-        },
-        {
-          date: '07/15/2020',
-          price: '$ 23.21',
-        },
-        {
-          date: '07/15/2020',
-          price: '$ 23.21',
-        },
-      ],
-    },
-  }
+  const [err, res] = await to(
+    axios.post('/api/create_template_multidata', payload)
+  )
   showLoader.value = false
+  if (err) {
+    console.error(err)
+    return
+  }
+  console.log(res)
+  // const res: any = {
+  //   data: {
+  //     message: [
+  //       {
+  //         date: '07/15/2020',
+  //         price: '$ 23.21',
+  //       },
+  //       {
+  //         date: '07/15/2020',
+  //         price: '$ 23.21',
+  //       },
+  //       {
+  //         date: '07/15/2020',
+  //         price: '$ 23.21',
+  //       },
+  //       {
+  //         date: '07/15/2020',
+  //         price: '$ 23.21',
+  //       },
+  //       {
+  //         date: '07/15/2020',
+  //         price: '$ 23.21',
+  //       },
+  //       {
+  //         date: '07/15/2020',
+  //         price: '$ 23.21',
+  //       },
+  //     ],
+  //   },
+  // }
+  // showLoader.value = false
   const tempAnnotations: ProcessedAnnotation[] = []
   templateFiles.value.forEach((templateFile, i) => {
     templateAnnotations.value[i].forEach((annotation, j) => {

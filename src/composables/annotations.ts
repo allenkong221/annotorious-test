@@ -57,7 +57,6 @@ export const useAnnotations = () => {
         selectedAnnotationId.value = ''
       })
       anno.value.on('changeSelectionTarget', (val: any) => {
-        console.log(val)
         isUserEditing.value = true
         setTimeout(() => {
           if (!pressed.value) {
@@ -136,7 +135,6 @@ export const useAnnotations = () => {
       anno.value.destroy()
     },
     toggleAnnotations: () => {
-      console.log('toggling annotations')
       anno.value.disableSelect = !anno.value.disableSelect
     },
   }

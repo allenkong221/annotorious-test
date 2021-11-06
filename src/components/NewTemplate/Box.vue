@@ -59,8 +59,9 @@
         v-if="templateImages.length === 0"
         class="flex flex-col w-1/2 items-center my-auto mx-auto"
       >
+        <!-- FIXME CHANGE TO 5 -->
         <span class="text-p text-center text-gray4 mb-2"
-          >Minimum of 5 files</span
+          >Minimum of 3 files</span
         >
         <h3 class="text-h3 text-gray4 mb-10 text-center font-semibold">
           The more documents you add, the more accurate the template.
