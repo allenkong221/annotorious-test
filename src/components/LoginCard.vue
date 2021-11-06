@@ -6,7 +6,7 @@
       bg-yellow
       flex flex-col
       p-6
-      min-w-1/3
+      min-w-36/100
       box-shadow
     "
   >
@@ -14,9 +14,8 @@
       >I want to <span class="font-bold">sign up!</span></span
     >
     <div class="flex flex-col px-10">
-      <h1 class="text-secondary text-h1 font-bold text-center my-16">
-        Tolstoy
-      </h1>
+      <img :src="logo" class="w-32 mx-auto mt-8" />
+      <h1 class="text-secondary text-h1 font-bold text-center mb-8">Tolstoy</h1>
       <form @submit.prevent="handleLogin" class="flex flex-col">
         <login-input label="E-mail" v-model="userEmail" class="mb-6 text-p" />
         <login-input
@@ -38,6 +37,7 @@
 </template>
 
 <script setup lang="ts">
+import logo from '~/assets/logo.png'
 const userEmail = ref('')
 const userPassword = ref('')
 

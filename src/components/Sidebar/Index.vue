@@ -10,7 +10,9 @@
       md:py-0
     "
   >
-    <div class="h-25 flex items-center z-1">LOGO</div>
+    <div class="h-25 flex items-center z-1">
+      <img :src="logo" class="w-2/3 mx-auto" />
+    </div>
     <div
       class="
         flex flex-col
@@ -92,6 +94,7 @@
 </template>
 
 <script setup lang="ts">
+import logo from '~/assets/logo.png'
 import { useMenu } from '~/composables/menu'
 const { menuItems } = useMenu()
 const route = useRoute()

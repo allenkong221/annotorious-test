@@ -19,6 +19,7 @@ declare module 'vue' {
     ICodiconBell: typeof import('~icons/codicon/bell')['default']
     IFeChevronLeft: typeof import('~icons/fe/chevron-left')['default']
     IFeLayer: typeof import('~icons/fe/layer')['default']
+    ILucideCheckCircle: typeof import('~icons/lucide/check-circle')['default']
     IMdiBell: typeof import('~icons/mdi/bell')['default']
     IMdiCheck: typeof import('~icons/mdi/check')['default']
     IMdiChevronLeft: typeof import('~icons/mdi/chevron-left')['default']
