@@ -37,11 +37,11 @@ export interface ProcessedAnnotation {
   height: number
   ocrValue: any
   fileIndex: number
+  finalValue?: string
+  resultApproved?: boolean
+  failReason?: string[]
 }
 
-export interface templateCreationResponse {
-  message:
-}
 export interface AnnotationSelection {
   body: Array<any>
   target: {
@@ -56,6 +56,7 @@ export interface AnnotationSelection {
 }
 
 export interface Template {
+  name: string
   image: any
   annotations: FormattedAnnotation[]
 }
@@ -65,6 +66,7 @@ export interface TemplateGroup {
 }
 
 export interface ProcessedTemplate {
+  name: string
   image: any
   user: string
   annotations: ProcessedAnnotation[]

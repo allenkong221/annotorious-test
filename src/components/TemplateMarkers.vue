@@ -8,7 +8,11 @@
     }"
   >
     <div
-      v-show="selectedAnnotationId === annotation.id && !isUserEditing"
+      v-show="
+        selectedAnnotationId === annotation.id &&
+        !isUserEditing &&
+        annotation.new
+      "
       class="flex flex-col bg-white border-secondary border-2 p-6 rounded-md"
       v-click-away="() => closeAnnotations(annotation.id)"
     >
@@ -44,7 +48,6 @@
 import { useAnnotations } from '~/composables/annotations'
 import { useTemplates } from '~/composables/templates'
 import { FormattedAnnotation } from '~/types/customTypes'
-// import { directive as vClickAway } from 'vue3-click-away'
 import { directive as vClickAway } from 'vue3-click-away'
 const {
   annotations,
@@ -106,7 +109,7 @@ const saveAnnotation = async () => {
     selectedAnnotationId.value = ''
     cancelSelection()
     templateAnnotations.value[selectedTemplateIndex.value] = annotations.value
-    if (newTemplateStep.value === 0) {
+    if (newTemplateStep.value === 1) {
       targetAnnotation.name = currentLabel.value
     } else {
       for (let i = 0; i < templateAnnotations.value.length; i++) {

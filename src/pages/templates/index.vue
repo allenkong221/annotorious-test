@@ -66,9 +66,20 @@
 </template>
 
 <script setup lang="ts">
+import axios from 'axios'
+import { to } from 'await-to-js'
 import { useTemplates } from '~/composables/templates'
-// @ts-ignore
+
+//@ts-ignore
 const { showNewTemplateModal } = useTemplates()
+onMounted(async () => {
+  const [err, res] = await to(axios.post('/api/get_filenames'))
+  if (err) {
+    console.error(err)
+    return
+  }
+  console.log(res.data)
+})
 </script>
 
 <style scoped></style>

@@ -1,12 +1,12 @@
 <template>
   <div
     v-if="!mouseInfo?.isOutside && !pressed && !selectedAnnotationId"
-    class="absolute w-1px bg-secondary top-0 pointer-events-none"
+    class="absolute w-1px bg-primary top-0 pointer-events-none"
     :style="{ left: `${mouseInfo?.elementX || 0}px`, height: `${imgHeight}px` }"
   ></div>
   <div
     v-if="!mouseInfo?.isOutside && !pressed && !selectedAnnotationId"
-    class="absolute h-1px bg-secondary left-0 w-full pointer-events-none"
+    class="absolute h-1px bg-primary left-0 w-full pointer-events-none"
     :style="{ top: `${mouseInfo?.elementY || 0}px` }"
   ></div>
 </template>

@@ -29,33 +29,20 @@
           }
         "
         :id="`label_${i}`"
-        :value="temporaryLabelNames[i]"
+        :value="isFocused ? tempLabel : annotation.name"
         @input="(event) => updateTempLabel(event, i)"
         class="flex-grow focus:outline-none"
-        :disabled="!isEditingLabel[i]"
+        @focus="selectLabel(i)"
+        @focusout="unfocusLabel(annotation.name)"
       />
-      <div class="flex">
-        <i-mdi-pencil
-          v-if="!isEditingLabel[i]"
-          @click.stop="startEditing(i)"
-          class="text-gray3 transition hover:text-gray4 cursor-pointer"
-        />
-        <i-bx-bxs-save
-          v-else-if="
-            isEditingLabel[i] && temporaryLabelNames[i] !== annotation.name
-          "
-          @click="labelChange(i)"
-          class="text-gray3 transition hover:text-gray4 cursor-pointer"
-        />
-        <i-mdi-trash
-          v-if="
-            selectedAnnotationId === annotation.id ||
-            (hoveredAnnotationId && hoveredAnnotationId === annotation.id)
-          "
-          @click.stop="confirmRemove(annotation.id)"
-          class="text-gray3 transition hover:text-gray4 cursor-pointer"
-        />
-      </div>
+      <i-mdi-trash
+        v-if="
+          selectedAnnotationId === annotation.id ||
+          (hoveredAnnotationId && hoveredAnnotationId === annotation.id)
+        "
+        @click.stop="confirmRemove(annotation.id)"
+        class="text-gray3 transition hover:text-gray4 cursor-pointer"
+      />
     </div>
     <confirmation-modal
       :model-value="showConfirmRemovalModal"
@@ -88,7 +75,7 @@
     </confirmation-modal>
     <confirmation-modal
       :model-value="showConfirmSaveModal"
-      @close="showConfirmSaveModal = false"
+      @close="cancelTempLabel"
     >
       <div class="bg-white w-100 rounded-lg relative flex flex-col p-6">
         <h5 class="text-h3 text-gray4 font-semibold mb-2">
@@ -97,8 +84,8 @@
         <p class="text-p text-gray4 mb-2">
           Editing this label means changing the labels "{{
             annotations[indexToBeSaved]?.name
-          }}" into "{{ temporaryLabelNames[indexToBeSaved] }}"" from every
-          single document for this template.
+          }}" into "{{ tempLabel }}"" for every single document in this
+          template.
         </p>
         <div class="flex justify-between">
           <my-button
@@ -108,10 +95,7 @@
             @click="confirmLabelChange(indexToBeSaved)"
             >Yes</my-button
           >
-          <my-button
-            type="secondary"
-            class="w-47/100"
-            @click="showConfirmSaveModal = false"
+          <my-button type="secondary" class="w-47/100" @click="cancelTempLabel"
             >No</my-button
           >
         </div>
@@ -171,64 +155,43 @@ const removeAllAnnotationsWithName = (annotationName: string) => {
   })
   showConfirmRemovalModal.value = false
 }
-const temporaryLabelNames = ref<string[]>([])
-const isEditingLabel = ref<boolean[]>([])
-watch(newTemplateStep, () => {
-  temporaryLabelNames.value = templateAnnotations.value[
-    selectedTemplateIndex.value
-  ].map((annotation) => annotation.name)
-  isEditingLabel.value = []
-  for (let i = 0; i < templateAnnotations.value.length; i++) {
-    isEditingLabel.value.push(false)
-  }
-})
-watch(selectedTemplateIndex, (index) => {
-  temporaryLabelNames.value = templateAnnotations.value[index].map(
-    (annotation) => annotation.name
-  )
-  isEditingLabel.value = []
-  for (let i = 0; i < templateAnnotations.value.length; i++) {
-    isEditingLabel.value.push(false)
-  }
-})
-watch(
-  annotations,
-  () => {
-    temporaryLabelNames.value = templateAnnotations.value[
-      selectedTemplateIndex.value
-    ].map((annotation) => annotation.name)
-  },
-  { deep: true }
-)
 const showConfirmSaveModal = ref(false)
 const indexToBeSaved = ref(0)
-const updateTempLabel = (event: Event, index: number) => {
-  const target = event.target as HTMLInputElement
-  for (let i = 0; i < templateAnnotations.value.length; i++) {
-    temporaryLabelNames.value[index] = target.value
-  }
-}
-const labelChange = (index: number) => {
-  showConfirmSaveModal.value = true
-  indexToBeSaved.value = index
-}
-const confirmLabelChange = (index: number) => {
-  for (let i = 0; i < templateAnnotations.value.length; i++) {
-    templateAnnotations.value[i][index].name = temporaryLabelNames.value[index]
-  }
-  annotations.value[index].name = temporaryLabelNames.value[index]
-  indexToBeSaved.value = 0
-  showConfirmSaveModal.value = false
-}
+
 const inputRefs = ref<any>([])
 onBeforeUpdate(() => {
   inputRefs.value = []
 })
-const startEditing = async (index: number) => {
-  await nextTick()
-
-  inputRefs.value[index].focus()
-  isEditingLabel.value[index] = true
+const tempLabel = ref('')
+const confirmLabelChange = (index: number) => {
+  for (let i = 0; i < templateAnnotations.value.length; i++) {
+    if (templateAnnotations.value[i].length > 0) {
+      templateAnnotations.value[i][index].name = tempLabel.value
+    }
+  }
+  annotations.value[index].name = tempLabel.value
+  indexToBeSaved.value = 0
+  showConfirmSaveModal.value = false
+  isFocused.value = false
+}
+const isFocused = ref(false)
+const selectLabel = (index: number) => {
+  isFocused.value = true
+  indexToBeSaved.value = index
+  tempLabel.value = annotations.value[index].name
+}
+const updateTempLabel = (event: Event, index: number) => {
+  const target = event.target as HTMLInputElement
+  tempLabel.value = target.value
+}
+const unfocusLabel = (originalName: string) => {
+  if (tempLabel.value !== originalName) showConfirmSaveModal.value = true
+}
+const cancelTempLabel = () => {
+  isFocused.value = false
+  tempLabel.value = ''
+  indexToBeSaved.value = 0
+  showConfirmSaveModal.value = false
 }
 </script>
 

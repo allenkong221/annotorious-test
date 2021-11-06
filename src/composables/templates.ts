@@ -5,6 +5,7 @@ const templateFiles = ref<File[]>([])
 const newTemplateImage = ref()
 const newTemplateFile = ref()
 const newTemplateStep = ref(0)
+const newTemplateName = ref('')
 const showNewTemplateModal = ref(false)
 const selectedTemplateIndex = ref(0)
 const templateAnnotations = ref<Array<FormattedAnnotation[]>>([])
@@ -23,6 +24,7 @@ export const useTemplates = () => {
     newTemplateStep,
     showNewTemplateModal,
     selectedTemplateIndex,
+    newTemplateName,
     newTemplateImage: newTemplateImage,
     newTemplateFile: newTemplateFile,
     templateAnnotations,

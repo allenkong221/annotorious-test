@@ -74,9 +74,12 @@
       </div>
     </template>
     <template v-else-if="newTemplateStep === 1">
-      <div class="flex h-full">
+      <div class="flex h-full relative">
+        <span class="absolute top-0 left-40 z-5 text-small">{{
+          templateFiles[selectedTemplateIndex].name
+        }}</span>
         <new-template-image-carousel class="w-30 mr-5" />
-        <div class="flex-1 h-full relative" ref="imageWrapper">
+        <div class="flex-1 mt-6 h-full relative" ref="imageWrapper">
           <img ref="imgRef" :src="templateImages[selectedTemplateIndex]" />
           <new-template-mouse-cross
             :mouse-info="mouseInElement!"
@@ -91,9 +94,12 @@
       </div>
     </template>
     <template v-else-if="newTemplateStep === 2">
-      <div class="flex h-full">
+      <div class="flex h-full relative">
+        <span class="absolute top-0 left-40 z-5 text-small">{{
+          templateFiles[selectedTemplateIndex].name
+        }}</span>
         <new-template-image-carousel class="w-30 mr-5" />
-        <div class="flex-1 h-full relative" ref="imageWrapper">
+        <div class="flex-1 mt-6 h-full relative" ref="imageWrapper">
           <img ref="imgRef" :src="templateImages[selectedTemplateIndex]" />
           <!-- <new-template-mouse-cross
             :mouse-info="mouseInElement!"
@@ -119,6 +125,7 @@ const {
   newTemplateStep,
   selectedTemplateIndex,
   templateRawAnnotations,
+  templateFiles,
 } = useTemplates()
 
 const { initAnnotations, destroyAnnotations, setRawAnnotations } =
@@ -139,6 +146,7 @@ const mouseInElement = ref<UseMouseInElementReturn>()
 // This resets the annotorious instance everytime the user changes the sample image, if the user is on the sample drawing step.
 watch(selectedTemplateIndex, async (val) => {
   if (newTemplateStep.value === 1) {
+    console.log(templateFiles.value)
     await nextTick()
     destroyAnnotations()
     initializeAnnotations()
