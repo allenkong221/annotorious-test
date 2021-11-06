@@ -26,6 +26,28 @@
           hover:bg-opacity-15
         "
       ></div>
+      <div
+        class="
+          border-secondary border-2
+          absolute
+          top-0
+          right-0
+          w-3
+          border-opacity-70
+          h-3
+          transform
+          translate-x-1/2
+          -translate-y-1/2
+        "
+        :class="{
+          'bg-secondary bg-opacity-70': templatesValidation[i],
+        }"
+      >
+        <i-ci-check-bold
+          class="text-white icon-text absolute top-0 left-0 font-bold"
+          v-if="templatesValidation[i]"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -39,6 +61,7 @@ const {
   templateAnnotations,
   templateRawAnnotations,
   firstTemplateReady,
+  templatesValidation,
 } = useTemplates()
 const { annotations, getRawAnnotations } = useAnnotations()
 const changeCurrentTemplate = (newIndex: number) => {
@@ -58,4 +81,8 @@ const changeCurrentTemplate = (newIndex: number) => {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.icon-text {
+  font-size: 7px;
+}
+</style>

@@ -11,6 +11,7 @@ const selectedTemplateIndex = ref(0)
 const templateAnnotations = ref<Array<FormattedAnnotation[]>>([])
 const templateRawAnnotations = ref<any[][]>([])
 const firstTemplateReady = ref(false)
+const templatesValidation = ref<boolean[]>([])
 export const useTemplates = () => {
   return {
     steps: [
@@ -23,6 +24,7 @@ export const useTemplates = () => {
     firstTemplateReady,
     newTemplateStep,
     showNewTemplateModal,
+    templatesValidation,
     selectedTemplateIndex,
     newTemplateName,
     newTemplateImage: newTemplateImage,

@@ -14,6 +14,8 @@ declare module 'vue' {
     IBxBxsSave: typeof import('~icons/bx/bxs-save')['default']
     ICarbonCaretLeft: typeof import('~icons/carbon/caret-left')['default']
     ICarbonCaretRight: typeof import('~icons/carbon/caret-right')['default']
+    ICiCheck: typeof import('~icons/ci/check')['default']
+    ICiCheckBold: typeof import('~icons/ci/check-bold')['default']
     ICodiconBell: typeof import('~icons/codicon/bell')['default']
     IFeChevronLeft: typeof import('~icons/fe/chevron-left')['default']
     IFeLayer: typeof import('~icons/fe/layer')['default']

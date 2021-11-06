@@ -144,6 +144,7 @@ const {
   newTemplateName,
   firstTemplateReady,
   templateFiles,
+  templatesValidation,
 } = useTemplates()
 
 const {
@@ -168,10 +169,12 @@ const startLabeling = () => {
   for (let i = 0; i < totalTemplates; i++) {
     templateAnnotations.value.push([])
     templateRawAnnotations.value.push([])
+    templatesValidation.value[i] = false
   }
 }
 
 const handleAdvanceTemplate = async () => {
+  templatesValidation.value[selectedTemplateIndex.value] = true
   if (selectedTemplateIndex.value === 0 && !firstTemplateReady.value) {
     firstTemplateReady.value = true
     for (let i = 0; i < templateAnnotations.value.length; i++) {
@@ -182,7 +185,6 @@ const handleAdvanceTemplate = async () => {
     }
   }
   if (selectedTemplateIndex.value === templateImages.value.length - 1) {
-    // TODO: Uncomment below after integrating with BE
     await submitTemplate()
     newTemplateStep.value = 2
     return
